@@ -38,6 +38,9 @@ button:focus-visible { outline: 2px solid #d15b74; outline-offset: 4px; }
 
 .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 52px; }
 .header h1 { margin: 0; font-size: 29px; line-height: 1.1; font-weight: 800; letter-spacing: -1.4px; }
+.header-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.header-title.has-back h1 { font-size: 24px; letter-spacing: -.8px; }
+.back-button { width: 44px; height: 44px; margin-left: -10px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; cursor: pointer; }
 .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .board-tools { display: flex; align-items: center; padding: 2px; background: #f4f4f4; border-radius: 24px; }
 .tool-button { width: 39px; height: 40px; display: grid; place-items: center; border-radius: 50%; }
@@ -46,6 +49,22 @@ button:focus-visible { outline: 2px solid #d15b74; outline-offset: 4px; }
 .profile-button img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .board-stage { flex: 1 1 0; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.home-page { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; gap: 32px; padding-top: 12px; }
+.home-section h2 { margin: 0 0 16px; font-size: 17px; line-height: 1.3; letter-spacing: -.35px; font-weight: 600; }
+.recent-moodboard { display: block; width: min(100%, 240px, var(--board-width)); text-align: left; border-radius: 9px; cursor: pointer; }
+.moodboard-preview { display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 9px; container-type: inline-size; }
+.moodboard-preview .moodboard { --board-width: 100cqw; --grid-gap: 6px; }
+.recent-moodboard-title { display: block; margin-top: 12px; font-size: 14px; line-height: 1.4; font-weight: 500; }
+.all-moodboards { flex: 1; min-height: 0; }
+.all-moodboards-button { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; cursor: pointer; }
+.all-moodboards-button svg { width: 18px; height: 18px; color: #777479; }
+.all-moodboards-page { width: 100%; height: 100%; min-height: 0; overflow-y: auto; padding-top: 12px; }
+.moodboard-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.moodboard-list-item { width: 100%; min-height: 72px; display: flex; align-items: center; gap: 16px; text-align: left; border-radius: 9px; cursor: pointer; }
+.moodboard-list-thumbnail { width: 64px; height: 64px; flex-shrink: 0; display: grid; place-items: center; overflow: hidden; border-radius: 7px; background: #f1efed; }
+.moodboard-list-thumbnail img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.moodboard-list-title { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 15px; font-weight: 500; }
+.moodboard-list-item > svg { width: 18px; height: 18px; color: #777479; flex-shrink: 0; }
 .moodboard {
   width: var(--board-width);
   display: grid;

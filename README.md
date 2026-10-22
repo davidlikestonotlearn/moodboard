@@ -1,6 +1,6 @@
 # Moodboard
 
-A mobile-first React UI prototype. The bottom navigation switches between the moodboard and blank Home and Settings pages. Other buttons remain visual only. There is no backend, authentication, music service, or editing behavior.
+A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings remains blank. Other buttons remain visual only. There is no backend, authentication, music service, or editing behavior.
 
 ## Run
 
@@ -27,6 +27,10 @@ Create a production build with `npm.cmd run build`; serve it with `npm.cmd run p
 ## Replace the sample content
 
 Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each board item declares its starting column/row and column/row span. The board always has two columns and four rows. The reusable image and playlist widgets also support the other requested spans, including 2×2.
+
+`recentMoodboard` sets the Home preview's title and items. `HomePage` renders the two Home sections, and `MoodboardPreview` crops the existing board to its top two rows so the preview uses the same arrangement.
+
+The `moodboards` array supplies the All Moodboards screen. It currently contains the one sample board; add board objects with an `id`, `title`, and `items` to expand the list.
 
 The board uses square grid cells sized to both viewport dimensions. The header and navigation remain outside the grid, and safe-area insets are added to the shell padding. On desktop, the app stays centered at a maximum width of 440px.
 

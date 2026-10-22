@@ -18,6 +18,16 @@ export const boardItems = [
   { id: 'ctrl', type: 'image', src: '/images/ctrl.jpg', alt: 'SZA sitting among old computer monitors on the Ctrl album cover', placement: { column: 2, row: 4, columns: 1, rows: 1 } },
 ];
 
+// A static recent board for Home until saved boards are available.
+export const recentMoodboard = {
+  id: 'golden-hour',
+  title: 'Golden hour',
+  items: boardItems,
+};
+
+// Add future sample boards here to include them on the All Moodboards screen.
+export const moodboards = [recentMoodboard];
+
 export const navigationItems = [
   { id: 'home', label: 'Home', icon: 'home' },
   { id: 'moodboards', label: 'Moodboards', icon: 'moodboards' },

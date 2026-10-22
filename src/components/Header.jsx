@@ -1,9 +1,12 @@
 import { Icon } from './Icon';
 
-export function Header({ profile, title = 'Moodboard', showBoardTools = true }) {
+export function Header({ profile, title = 'Moodboard', showBoardTools = true, onBack }) {
   return (
     <header className="header">
-      <h1>{title}</h1>
+      <div className={`header-title${onBack ? ' has-back' : ''}`}>
+        {onBack && <button type="button" className="back-button" aria-label="Back to Home" onClick={onBack}><Icon name="back" /></button>}
+        <h1>{title}</h1>
+      </div>
       <div className="header-actions">
         {showBoardTools && <div className="board-tools" role="group" aria-label="Board tools">
           <button type="button" className="tool-button" aria-label="Add or organize widgets"><Icon name="organize" /></button>
