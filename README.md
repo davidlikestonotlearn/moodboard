@@ -30,6 +30,8 @@ Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each boa
 
 `recentMoodboard` sets the Home preview's title and items. `HomePage` renders the two Home sections, and `MoodboardPreview` crops the existing board to its top two rows so the preview uses the same arrangement.
 
+Opening the recent preview selects its board, activates the middle Moodboards tab, and moves keyboard focus into the board content.
+
 The `moodboards` array supplies the All Moodboards screen. It currently contains the one sample board; add board objects with an `id`, `title`, and `items` to expand the list.
 
 The board uses square grid cells sized to both viewport dimensions. The header and navigation remain outside the grid, and safe-area insets are added to the shell padding. On desktop, the app stays centered at a maximum width of 440px.

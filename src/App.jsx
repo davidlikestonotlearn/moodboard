@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Header } from './components/Header';
 import { Moodboard } from './components/Moodboard';
 import { BottomNavigation } from './components/BottomNavigation';
@@ -10,12 +10,17 @@ export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
+  const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const pageTitle = showAllMoodboards
     ? 'All Moodboards'
     : isMoodboard
       ? 'Moodboard'
       : navigationItems.find((item) => item.id === selectedTab).label;
+
+  useEffect(() => {
+    if (isMoodboard) mainContentRef.current?.focus();
+  }, [isMoodboard, selectedBoard]);
 
   function openMoodboard(board) {
     setSelectedBoard(board);
@@ -36,12 +41,12 @@ export function App() {
         showBoardTools={isMoodboard}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
-      <main className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
+      <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
         {showAllMoodboards && <AllMoodboardsPage boards={moodboards} onOpenMoodboard={openMoodboard} />}
         {!showAllMoodboards && selectedTab === 'home' && (
           <HomePage
             board={recentMoodboard}
-            onOpenMoodboard={() => openMoodboard(recentMoodboard)}
+            onOpenMoodboard={openMoodboard}
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
           />
         )}

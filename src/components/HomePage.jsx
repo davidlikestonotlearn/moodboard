@@ -10,7 +10,7 @@ export function HomePage({ board, onOpenMoodboard, onOpenAllMoodboards }) {
           type="button"
           className="recent-moodboard"
           aria-label={`Open ${board.title} moodboard`}
-          onClick={onOpenMoodboard}
+          onClick={() => onOpenMoodboard(board)}
         >
           <MoodboardPreview items={board.items} />
           <span className="recent-moodboard-title">{board.title}</span>
