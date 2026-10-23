@@ -1,4 +1,5 @@
 const paths = {
+  logout: <><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" /><path d="M10 12h11m-4-4 4 4-4 4" /></>,
   back: <><path d="m14 5-7 7 7 7" /><path d="M7 12h14" /></>,
   chevronRight: <path d="m9 5 7 7-7 7" />,
   home: <><path d="m3.5 10 8.5-7 8.5 7v9a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19Z" /><path d="M9 20.5v-7h6v7" /></>,

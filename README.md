@@ -1,6 +1,6 @@
 # Moodboard
 
-A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings remains blank. Other buttons remain visual only. There is no backend, authentication, music service, or editing behavior.
+A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings contains a Log out button that is presentational and has no action yet. Other buttons remain visual only. There is no backend, authentication, music service, or editing behavior.
 
 ## Run
 

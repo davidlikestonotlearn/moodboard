@@ -4,6 +4,7 @@ import { Moodboard } from './components/Moodboard';
 import { BottomNavigation } from './components/BottomNavigation';
 import { HomePage } from './components/HomePage';
 import { AllMoodboardsPage } from './components/AllMoodboardsPage';
+import { SettingsPage } from './components/SettingsPage';
 import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
 
 export function App() {
@@ -51,6 +52,7 @@ export function App() {
           />
         )}
         {isMoodboard && <Moodboard items={selectedBoard.items} />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
     </div>
