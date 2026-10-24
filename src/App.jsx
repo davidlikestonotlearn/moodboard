@@ -6,6 +6,7 @@ import { HomePage } from './components/HomePage';
 import { AllMoodboardsPage } from './components/AllMoodboardsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
+import { moveImage } from './moveImage';
 
 export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
@@ -48,6 +49,13 @@ export function App() {
     }));
   }
 
+  function moveBoardImage(id, column, row) {
+    setBoardItemsById((previous) => ({
+      ...previous,
+      [currentBoard.id]: moveImage(previous[currentBoard.id] ?? currentBoard.items, id, column, row),
+    }));
+  }
+
   return (
     <div className="app-shell">
       <Header
@@ -67,7 +75,7 @@ export function App() {
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
           />
         )}
-        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onImageLongPress={() => setIsEditing(true)} onDeleteImage={deleteImage} />}
+        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onImageLongPress={() => setIsEditing(true)} onDeleteImage={deleteImage} onMoveImage={moveBoardImage} />}
         {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />

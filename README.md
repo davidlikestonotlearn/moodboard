@@ -1,6 +1,6 @@
 # Moodboard
 
-A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings contains a Log out button that is presentational and has no action yet. Hold an image on the Moodboards tab for two seconds to enter edit mode; tap its × button to delete it, or tap Done to leave edit mode. Edits last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or music service.
+A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings contains a Log out button that is presentational and has no action yet. Hold an image on the Moodboards tab for two seconds to enter edit mode. Then drag an image to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Edits last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or music service.
 
 ## Run
 
