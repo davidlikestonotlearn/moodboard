@@ -5,11 +5,13 @@ export function ImageWidget({ src, alt, position = 'center', className = '', sty
   const startPoint = useRef(null);
   const dragPoint = useRef(null);
   const [dragOffset, setDragOffset] = useState(null);
+  const [isHolding, setIsHolding] = useState(false);
 
   function cancelHold() {
     clearTimeout(holdTimer.current);
     holdTimer.current = null;
     startPoint.current = null;
+    setIsHolding(false);
   }
 
   useEffect(() => () => clearTimeout(holdTimer.current), []);
@@ -23,10 +25,13 @@ export function ImageWidget({ src, alt, position = 'center', className = '', sty
     }
     if (!onLongPress || isEditing) return;
     cancelHold();
+    event.currentTarget.setPointerCapture(event.pointerId);
     startPoint.current = { x: event.clientX, y: event.clientY };
+    setIsHolding(true);
     holdTimer.current = setTimeout(() => {
       holdTimer.current = null;
       startPoint.current = null;
+      setIsHolding(false);
       onLongPress();
     }, 2000);
   }
@@ -52,13 +57,12 @@ export function ImageWidget({ src, alt, position = 'center', className = '', sty
 
   return (
     <figure
-      className={`image-widget${isEditing ? ' is-editing' : ''}${dragOffset ? ' is-dragging' : ''} ${className}`}
+      className={`image-widget${onLongPress ? ' is-interactive' : ''}${isEditing ? ' is-editing' : ''}${isHolding ? ' is-holding' : ''}${dragOffset ? ' is-dragging' : ''} ${className}`}
       style={{ ...style, transform: dragOffset ? `translate3d(${dragOffset.x}px, ${dragOffset.y}px, 0)` : undefined }}
       onPointerDown={startHold}
       onPointerMove={checkMovement}
       onPointerUp={finishPointer}
       onPointerCancel={finishPointer}
-      onPointerLeave={isEditing ? undefined : cancelHold}
       onContextMenu={onLongPress ? (event) => event.preventDefault() : undefined}
     >
       <img src={src} alt={alt} style={{ objectPosition: position }} draggable="false" />

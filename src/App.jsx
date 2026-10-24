@@ -63,6 +63,7 @@ export function App() {
         title={pageTitle}
         showBoardTools={isMoodboard}
         isEditing={isEditing}
+        onEdit={() => setIsEditing(true)}
         onDoneEditing={() => setIsEditing(false)}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
