@@ -1,9 +1,9 @@
 import { ImageWidget } from './ImageWidget';
 import { PlaylistWidget } from './PlaylistWidget';
 
-export function Moodboard({ items }) {
+export function Moodboard({ items, isEditing = false, onImageLongPress }) {
   return (
-    <div className="moodboard">
+    <div className={`moodboard${isEditing ? ' is-editing' : ''}`}>
       {items.map(({ id, type, placement, ...content }) => {
         const style = {
           gridColumn: `${placement.column} / span ${placement.columns}`,
@@ -11,7 +11,7 @@ export function Moodboard({ items }) {
         };
         return type === 'playlist'
           ? <PlaylistWidget key={id} {...content} style={style} />
-          : <ImageWidget key={id} {...content} style={style} />;
+          : <ImageWidget key={id} {...content} style={style} isEditing={isEditing} onLongPress={onImageLongPress} />;
       })}
     </div>
   );

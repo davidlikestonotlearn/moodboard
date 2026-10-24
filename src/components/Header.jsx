@@ -1,6 +1,6 @@
 import { Icon } from './Icon';
 
-export function Header({ profile, title = 'Moodboard', showBoardTools = true, onBack }) {
+export function Header({ profile, title = 'Moodboard', showBoardTools = true, isEditing = false, onDoneEditing, onBack }) {
   return (
     <header className="header">
       <div className={`header-title${onBack ? ' has-back' : ''}`}>
@@ -8,10 +8,12 @@ export function Header({ profile, title = 'Moodboard', showBoardTools = true, on
         <h1>{title}</h1>
       </div>
       <div className="header-actions">
-        {showBoardTools && <div className="board-tools" role="group" aria-label="Board tools">
+        {showBoardTools && (isEditing ? (
+          <button type="button" className="done-button" onClick={onDoneEditing}>Done</button>
+        ) : <div className="board-tools" role="group" aria-label="Board tools">
           <button type="button" className="tool-button" aria-label="Add or organize widgets"><Icon name="organize" /></button>
           <button type="button" className="tool-button" aria-label="More board options"><Icon name="more" /></button>
-        </div>}
+        </div>)}
         <button type="button" className="profile-button" aria-label={`${profile.name}'s profile`}>
           <img src={profile.image} alt="" width="40" height="40" />
         </button>

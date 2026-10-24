@@ -11,6 +11,7 @@ export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
+  const [isEditing, setIsEditing] = useState(false);
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const pageTitle = showAllMoodboards
@@ -24,12 +25,14 @@ export function App() {
   }, [isMoodboard, selectedBoard]);
 
   function openMoodboard(board) {
+    setIsEditing(false);
     setSelectedBoard(board);
     setSelectedTab('moodboards');
     setShowAllMoodboards(false);
   }
 
   function selectTab(id) {
+    setIsEditing(false);
     setSelectedTab(id);
     setShowAllMoodboards(false);
   }
@@ -40,6 +43,8 @@ export function App() {
         profile={profile}
         title={pageTitle}
         showBoardTools={isMoodboard}
+        isEditing={isEditing}
+        onDoneEditing={() => setIsEditing(false)}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -51,7 +56,7 @@ export function App() {
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
           />
         )}
-        {isMoodboard && <Moodboard items={selectedBoard.items} />}
+        {isMoodboard && <Moodboard items={selectedBoard.items} isEditing={isEditing} onImageLongPress={() => setIsEditing(true)} />}
         {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
