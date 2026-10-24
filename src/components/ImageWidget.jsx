@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export function ImageWidget({ src, alt, position = 'center', className = '', style, isEditing = false, onLongPress }) {
+export function ImageWidget({ src, alt, position = 'center', className = '', style, isEditing = false, onLongPress, onDelete }) {
   const holdTimer = useRef(null);
   const startPoint = useRef(null);
 
@@ -39,6 +39,17 @@ export function ImageWidget({ src, alt, position = 'center', className = '', sty
       onContextMenu={onLongPress ? (event) => event.preventDefault() : undefined}
     >
       <img src={src} alt={alt} style={{ objectPosition: position }} draggable="false" />
+      {isEditing && onDelete && (
+        <button
+          type="button"
+          className="delete-image-button"
+          aria-label={`Delete ${alt}`}
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={onDelete}
+        >
+          ×
+        </button>
+      )}
     </figure>
   );
 }
