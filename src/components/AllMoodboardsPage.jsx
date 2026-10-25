@@ -23,6 +23,7 @@ export function AllMoodboardsPage({ boards, onOpenMoodboard }) {
           );
         })}
       </ul>
+      {boards.length === 0 && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { SongWidget } from './SongWidget';
 import { PlaylistWidget } from './PlaylistWidget';
 import { playlistTrackLimit } from '../boardSpace';
 
-export function Moodboard({ items, isEditing = false, linksEnabled = false, onWidgetLongPress, onDeleteWidget, onMoveWidget, onEditWidgetLink }) {
+export function Moodboard({ items, isEditing = false, linksEnabled = false, onWidgetLongPress, onAddWidget, onDeleteWidget, onMoveWidget, onEditWidgetLink }) {
   const boardRef = useRef(null);
 
   function moveToPointer(id, clientX, clientY) {
@@ -19,6 +19,12 @@ export function Moodboard({ items, isEditing = false, linksEnabled = false, onWi
 
   return (
     <div ref={boardRef} className={`moodboard${isEditing ? ' is-editing' : ''}`}>
+      {items.length === 0 && (
+        <>
+          {Array.from({ length: 8 }, (_, index) => <div key={index} className="empty-board-slot" aria-hidden="true" />)}
+          {onAddWidget && <button type="button" className="empty-board-action" onClick={onAddWidget}>Your moodboard is empty.<br />Tap anywhere to add a widget.</button>}
+        </>
+      )}
       {items.map(({ id, type, placement, ...content }) => {
         const style = {
           gridColumn: `${placement.column} / span ${placement.columns}`,

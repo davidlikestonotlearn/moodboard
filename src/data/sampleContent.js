@@ -28,6 +28,11 @@ export const recentMoodboard = {
 // Add future sample boards here to include them on the All Moodboards screen.
 export const moodboards = [recentMoodboard];
 
+export const emptyMoodboardTemplate = {
+  title: 'Untitled Moodboard',
+  items: [],
+};
+
 export const navigationItems = [
   { id: 'home', label: 'Home', icon: 'home' },
   { id: 'moodboards', label: 'Moodboards', icon: 'moodboards' },

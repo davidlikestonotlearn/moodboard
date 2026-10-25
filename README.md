@@ -1,6 +1,6 @@
 # Moodboard
 
-A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings lets you choose Dark or Light mode; Dark is restored on refresh. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag a widget to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Edits last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or Spotify API integration.
+A mobile-first React UI prototype. Home shows the last opened moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Create Moodboard asks for a name and opens an empty board; tap its grid to add the first widget. The three-dot menu lets you rename or delete a board. Privacy settings is a placeholder. Settings lets you choose Dark or Light mode; Dark is restored on refresh. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag a widget to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Changes last only until the page reloads. There is no backend, authentication, or Spotify API integration.
 
 ## Spotify links
 
@@ -34,7 +34,7 @@ Create a production build with `npm.cmd run build`; serve it with `npm.cmd run p
 
 Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each board item declares its starting column/row and column/row span. The board always has two columns and four rows. Image and Song widgets support all four sizes; Playlist uses 2×1 or 2×2.
 
-`recentMoodboard` sets the Home preview's title and items. `HomePage` renders the two Home sections, and `MoodboardPreview` crops the existing board to its top two rows so the preview uses the same arrangement.
+`recentMoodboard` provides the initial Home preview. After opening another board, Home shows that board instead. `HomePage` renders the two Home sections, and `MoodboardPreview` crops the existing board to its top two rows so the preview uses the same arrangement.
 
 Opening the recent preview selects its board, activates the middle Moodboards tab, and moves keyboard focus into the board content.
 

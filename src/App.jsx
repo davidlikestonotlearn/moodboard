@@ -7,13 +7,21 @@ import { AllMoodboardsPage } from './components/AllMoodboardsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { SpotifyLinkEditor } from './components/SpotifyLinkEditor';
 import { AddWidgetForm } from './components/AddWidgetForm';
-import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
+import { MoodboardNameForm } from './components/MoodboardNameForm';
+import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
+import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 
 export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
+  const [recentBoardId, setRecentBoardId] = useState(recentMoodboard.id);
+  const [createdBoards, setCreatedBoards] = useState([]);
+  const [boardTitlesById, setBoardTitlesById] = useState({});
+  const [deletedBoardIds, setDeletedBoardIds] = useState([]);
+  const [nameFormMode, setNameFormMode] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [boardItemsById, setBoardItemsById] = useState({});
   const [editingLinkId, setEditingLinkId] = useState(null);
@@ -21,14 +29,16 @@ export function App() {
   const [theme, setTheme] = useState('dark');
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
-  const boards = moodboards.map((board) => ({ ...board, items: boardItemsById[board.id] ?? board.items }));
-  const currentBoard = boards.find((board) => board.id === selectedBoard.id) ?? selectedBoard;
-  const homeBoard = boards.find((board) => board.id === recentMoodboard.id) ?? recentMoodboard;
-  const editingLinkItem = isMoodboard ? currentBoard.items.find((item) => item.id === editingLinkId) : null;
+  const boards = [...createdBoards, ...moodboards]
+    .filter((board) => !deletedBoardIds.includes(board.id))
+    .map((board) => ({ ...board, title: boardTitlesById[board.id] ?? board.title, items: boardItemsById[board.id] ?? board.items }));
+  const currentBoard = boards.find((board) => board.id === selectedBoard?.id) ?? boards[0] ?? null;
+  const homeBoard = boards.find((board) => board.id === recentBoardId) ?? boards[0];
+  const editingLinkItem = isMoodboard ? currentBoard?.items.find((item) => item.id === editingLinkId) : null;
   const pageTitle = showAllMoodboards
     ? 'All Moodboards'
     : isMoodboard
-      ? 'Moodboard'
+      ? currentBoard?.title ?? 'Moodboards'
       : navigationItems.find((item) => item.id === selectedTab).label;
 
   useEffect(() => {
@@ -45,8 +55,33 @@ export function App() {
     setEditingLinkId(null);
     setShowAddWidget(false);
     setSelectedBoard(board);
+    setRecentBoardId(board.id);
     setSelectedTab('moodboards');
     setShowAllMoodboards(false);
+  }
+
+  function createMoodboard(title) {
+    const board = { ...emptyMoodboardTemplate, id: crypto.randomUUID(), title, items: [] };
+    setCreatedBoards((previous) => [board, ...previous]);
+    setNameFormMode(null);
+    openMoodboard(board);
+  }
+
+  function renameMoodboard(title) {
+    setBoardTitlesById((previous) => ({ ...previous, [currentBoard.id]: title }));
+    setNameFormMode(null);
+  }
+
+  function deleteMoodboard() {
+    const remaining = boards.filter((board) => board.id !== currentBoard.id);
+    setDeletedBoardIds((previous) => [...previous, currentBoard.id]);
+    setSelectedBoard(remaining[0] ?? null);
+    setRecentBoardId(remaining[0]?.id ?? null);
+    setShowDeleteDialog(false);
+    setIsEditing(false);
+    setEditingLinkId(null);
+    setShowAddWidget(false);
+    setSelectedTab('home');
   }
 
   function selectTab(id) {
@@ -94,11 +129,13 @@ export function App() {
       <Header
         profile={profile}
         title={pageTitle}
-        showBoardTools={isMoodboard}
+        showBoardTools={isMoodboard && Boolean(currentBoard)}
         isEditing={isEditing}
         onEdit={() => setIsEditing(true)}
         onAdd={() => setShowAddWidget(true)}
         onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); setShowAddWidget(false); }}
+        onRename={() => setNameFormMode('rename')}
+        onDelete={() => setShowDeleteDialog(true)}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -108,14 +145,18 @@ export function App() {
             board={homeBoard}
             onOpenMoodboard={openMoodboard}
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
+            onCreateMoodboard={() => setNameFormMode('create')}
           />
         )}
-        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
+        {isMoodboard && currentBoard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onAddWidget={() => setShowAddWidget(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
+        {isMoodboard && !currentBoard && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
         {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}
       {showAddWidget && <AddWidgetForm items={currentBoard.items} onClose={() => setShowAddWidget(false)} onAdd={addWidget} />}
+      {nameFormMode && <MoodboardNameForm mode={nameFormMode} initialTitle={nameFormMode === 'rename' ? currentBoard?.title : ''} onClose={() => setNameFormMode(null)} onSave={nameFormMode === 'create' ? createMoodboard : renameMoodboard} />}
+      {showDeleteDialog && currentBoard && <DeleteMoodboardDialog title={currentBoard.title} onClose={() => setShowDeleteDialog(false)} onDelete={deleteMoodboard} />}
     </div>
   );
 }

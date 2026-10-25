@@ -9,6 +9,16 @@ const TYPES = [
   { id: 'playlist', label: 'Playlist', description: 'A playlist linked to Spotify' },
 ];
 
+function spotifyLinkForType(value, type) {
+  const kind = type === 'playlist' ? 'playlist' : 'song or album';
+  if (!value.trim()) throw new Error(`Paste a Spotify ${kind} link.`);
+  try {
+    return normalizeSpotifyUrl(value, new Set(type === 'playlist' ? ['playlist'] : ['track', 'album']));
+  } catch {
+    throw new Error(`Use a Spotify ${kind} link from open.spotify.com.`);
+  }
+}
+
 export function AddWidgetForm({ items, onAdd, onClose }) {
   const [step, setStep] = useState('size');
   const [size, setSize] = useState(null);
@@ -44,11 +54,16 @@ export function AddWidgetForm({ items, onAdd, onClose }) {
   }
 
   async function loadSpotifyArt() {
-    setLoadingPreview(true);
     setError('');
+    let normalized;
     try {
-      const normalized = normalizeSpotifyUrl(spotifyUrl, new Set(type === 'playlist' ? ['playlist'] : ['track', 'album']));
-      if (!normalized) throw new Error('Paste a Spotify link first.');
+      normalized = spotifyLinkForType(spotifyUrl, type);
+    } catch (cause) {
+      setError(cause.message);
+      return;
+    }
+    setLoadingPreview(true);
+    try {
       const preview = await fetchSpotifyPreview(normalized);
       if (preview.title) setTitle((previous) => previous || preview.title);
       if (preview.image) setImage(preview.image);
@@ -71,26 +86,25 @@ export function AddWidgetForm({ items, onAdd, onClose }) {
 
     try {
       const id = crypto.randomUUID();
+      const normalizedSpotifyUrl = type === 'image' ? '' : spotifyLinkForType(spotifyUrl, type);
       if (type === 'image' || type === 'song') {
         if (!image) throw new Error('Upload an image first.');
         const widget = { id, type, src: image, alt: title.trim() || imageName || 'Uploaded image', placement };
         if (type === 'song') {
-          if (!spotifyUrl.trim()) throw new Error('Paste a Spotify song or album link.');
-          widget.spotifyUrl = normalizeSpotifyUrl(spotifyUrl, new Set(['track', 'album']));
+          widget.spotifyUrl = normalizedSpotifyUrl;
         }
         onAdd(widget);
         return;
       }
 
       if (!title.trim()) throw new Error('Give the playlist a title.');
-      if (!spotifyUrl.trim()) throw new Error('Paste a Spotify playlist link.');
       if (!maxTracks) throw new Error('Playlists need a wide or large widget.');
       onAdd({
         id,
         type: 'playlist',
         label: title.trim(),
         cover: image,
-        spotifyUrl: normalizeSpotifyUrl(spotifyUrl, new Set(['playlist'])),
+        spotifyUrl: normalizedSpotifyUrl,
         tracks: tracks.slice(0, maxTracks).filter((track) => track.title.trim()).map((track, index) => ({
           id: `${id}-track-${index}`,
           title: track.title.trim(),
@@ -146,7 +160,7 @@ export function AddWidgetForm({ items, onAdd, onClose }) {
             {image && <img className="add-widget-image-preview" src={image} alt="Upload preview" />}
             {type !== 'image' && <label className="link-field" htmlFor="new-widget-spotify-url">
               <span>Spotify {type === 'playlist' ? 'playlist' : 'song or album'} link</span>
-              <input id="new-widget-spotify-url" type="url" inputMode="url" autoCapitalize="off" autoCorrect="off" spellCheck="false" value={spotifyUrl} onChange={(event) => setSpotifyUrl(event.target.value)} placeholder={`https://open.spotify.com/${type === 'playlist' ? 'playlist' : 'track'}/...`} />
+              <input id="new-widget-spotify-url" type="url" inputMode="url" autoCapitalize="off" autoCorrect="off" spellCheck="false" value={spotifyUrl} onChange={(event) => { setSpotifyUrl(event.target.value); setError(''); }} placeholder={`https://open.spotify.com/${type === 'playlist' ? 'playlist' : 'track'}/...`} />
             </label>}
             {type !== 'image' && <button type="button" className="fetch-spotify-art" disabled={loadingPreview} onClick={loadSpotifyArt}>{loadingPreview ? 'Loading Spotify art…' : 'Fetch Spotify art'}</button>}
             {type === 'playlist' && <>

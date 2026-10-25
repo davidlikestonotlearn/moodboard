@@ -1,10 +1,10 @@
 import { MoodboardPreview } from './MoodboardPreview';
 import { Icon } from './Icon';
 
-export function HomePage({ board, onOpenMoodboard, onOpenAllMoodboards }) {
+export function HomePage({ board, onOpenMoodboard, onOpenAllMoodboards, onCreateMoodboard }) {
   return (
     <div className="home-page">
-      <section className="home-section" aria-labelledby="recent-moodboard-heading">
+      {board && <section className="home-section" aria-labelledby="recent-moodboard-heading">
         <h2 id="recent-moodboard-heading">Recent Moodboard</h2>
         <button
           type="button"
@@ -15,7 +15,7 @@ export function HomePage({ board, onOpenMoodboard, onOpenAllMoodboards }) {
           <MoodboardPreview items={board.items} />
           <span className="recent-moodboard-title">{board.title}</span>
         </button>
-      </section>
+      </section>}
       <section className="home-section all-moodboards" aria-labelledby="all-moodboards-heading">
         <h2 id="all-moodboards-heading">
           <button type="button" className="all-moodboards-button" onClick={onOpenAllMoodboards}>
@@ -23,6 +23,9 @@ export function HomePage({ board, onOpenMoodboard, onOpenAllMoodboards }) {
             <Icon name="chevronRight" />
           </button>
         </h2>
+        <button type="button" className="create-moodboard-button" onClick={onCreateMoodboard}>
+          Create Moodboard
+        </button>
       </section>
     </div>
   );

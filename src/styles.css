@@ -64,13 +64,19 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   gap: 18px;
 }
 
-.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 52px; }
-.header h1 { margin: 0; font-size: 29px; line-height: 1.1; font-weight: 800; letter-spacing: -1.4px; }
-.header-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.header { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 52px; }
+.header h1 { min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 29px; line-height: 1.1; font-weight: 800; letter-spacing: -1.4px; }
+.header-title { display: flex; flex: 1; align-items: center; gap: 8px; min-width: 0; }
 .header-title.has-back h1 { font-size: 24px; letter-spacing: -.8px; }
 .back-button { width: 44px; height: 44px; margin-left: -10px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; cursor: pointer; }
 .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.board-tools { display: flex; align-items: center; padding: 2px; background: var(--surface-muted); border-radius: 24px; }
+.board-tools { position: relative; display: flex; align-items: center; padding: 2px; background: var(--surface-muted); border-radius: 24px; }
+.board-options-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 3; width: 196px; padding: 6px; border-radius: 15px; background: var(--surface); box-shadow: var(--nav-shadow); }
+.board-options-menu button { display: block; width: 100%; min-height: 44px; padding: 8px 12px; border-radius: 10px; text-align: left; font-size: 13px; cursor: pointer; }
+.board-options-menu button:hover { background: var(--surface-muted); }
+.board-options-menu button:disabled { color: var(--muted); cursor: default; }
+.board-options-menu button:disabled:hover { background: none; }
+.board-options-menu .board-option-delete { color: var(--accent); }
 .tool-button { width: 39px; height: 40px; display: grid; place-items: center; border-radius: 50%; }
 .tool-button svg { width: 20px; height: 20px; }
 .edit-header-actions { display: flex; align-items: center; gap: 8px; }
@@ -97,7 +103,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .all-moodboards { flex: 1; min-height: 0; }
 .all-moodboards-button { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; cursor: pointer; }
 .all-moodboards-button svg { width: 18px; height: 18px; color: var(--muted); }
+.create-moodboard-button { min-height: 44px; padding: 0 16px; border-radius: 22px; background: var(--accent-soft); color: var(--accent); font-size: 14px; font-weight: 700; cursor: pointer; }
 .all-moodboards-page { width: 100%; height: 100%; min-height: 0; overflow-y: auto; padding-top: 12px; }
+.no-moodboards-message { width: 100%; color: var(--muted); font-size: 14px; line-height: 1.5; text-align: center; }
 .moodboard-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 .moodboard-list-item { width: 100%; min-height: 72px; display: flex; align-items: center; gap: 16px; text-align: left; border-radius: 9px; cursor: pointer; }
 .moodboard-list-thumbnail { width: 64px; height: 64px; flex-shrink: 0; display: grid; place-items: center; overflow: hidden; border-radius: 7px; background: var(--image-background); }
@@ -105,6 +113,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .moodboard-list-title { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 15px; font-weight: 500; }
 .moodboard-list-item > svg { width: 18px; height: 18px; color: var(--muted); flex-shrink: 0; }
 .moodboard {
+  position: relative;
   width: var(--board-width);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -112,6 +121,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   gap: var(--grid-gap);
   container-type: inline-size;
 }
+.empty-board-slot { border-radius: 9px; background: var(--image-background); }
+.empty-board-action { position: absolute; inset: 0; width: 100%; display: grid; place-content: center; color: var(--muted); font-size: 14px; line-height: 1.6; text-align: center; cursor: pointer; }
 .board-widget { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: 9px; }
 .image-widget, .song-widget { margin: 0; background: var(--image-background); }
 .image-widget img, .song-widget img { width: 100%; height: 100%; display: block; object-fit: cover; user-select: none; }
@@ -168,6 +179,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .link-editor-actions button { min-height: 44px; padding: 0 16px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .link-editor-cancel { color: var(--muted); }
 .link-editor-save { background: var(--accent-soft); color: var(--accent); }
+.link-editor-save:disabled { opacity: .45; cursor: not-allowed; }
+.delete-moodboard-help { margin-top: 16px; margin-bottom: 0; }
 .add-widget-step { margin: 4px 0 18px; color: var(--muted); font-size: 13px; }
 .add-widget-options { display: grid; gap: 9px; }
 .add-widget-option { width: 100%; min-height: 60px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 13px; background: var(--surface-muted); text-align: left; cursor: pointer; }
