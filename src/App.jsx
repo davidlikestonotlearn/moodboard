@@ -6,7 +6,7 @@ import { HomePage } from './components/HomePage';
 import { AllMoodboardsPage } from './components/AllMoodboardsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
-import { moveImage } from './moveImage';
+import { moveWidget } from './moveWidget';
 
 export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
@@ -42,17 +42,17 @@ export function App() {
     setShowAllMoodboards(false);
   }
 
-  function deleteImage(id) {
+  function deleteWidget(id) {
     setBoardItemsById((previous) => ({
       ...previous,
       [currentBoard.id]: (previous[currentBoard.id] ?? currentBoard.items).filter((item) => item.id !== id),
     }));
   }
 
-  function moveBoardImage(id, column, row) {
+  function moveBoardWidget(id, column, row) {
     setBoardItemsById((previous) => ({
       ...previous,
-      [currentBoard.id]: moveImage(previous[currentBoard.id] ?? currentBoard.items, id, column, row),
+      [currentBoard.id]: moveWidget(previous[currentBoard.id] ?? currentBoard.items, id, column, row),
     }));
   }
 
@@ -76,7 +76,7 @@ export function App() {
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
           />
         )}
-        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onImageLongPress={() => setIsEditing(true)} onDeleteImage={deleteImage} onMoveImage={moveBoardImage} />}
+        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onWidgetLongPress={() => setIsEditing(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} />}
         {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />

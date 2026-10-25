@@ -22,21 +22,21 @@ function cellsFor(placement) {
   return cells;
 }
 
-// Keep the dragged image at its destination and place the remaining widgets
+// Keep the dragged widget at its destination and place the remaining widgets
 // as close as possible to where they were before the move.
-export function moveImage(items, imageId, column, row) {
-  const image = items.find((item) => item.id === imageId && item.type === 'image');
-  if (!image) return items;
+export function moveWidget(items, widgetId, column, row) {
+  const widget = items.find((item) => item.id === widgetId);
+  if (!widget) return items;
 
   const destination = {
-    ...image.placement,
-    column: Math.max(1, Math.min(column, BOARD_COLUMNS - image.placement.columns + 1)),
-    row: Math.max(1, Math.min(row, BOARD_ROWS - image.placement.rows + 1)),
+    ...widget.placement,
+    column: Math.max(1, Math.min(column, BOARD_COLUMNS - widget.placement.columns + 1)),
+    row: Math.max(1, Math.min(row, BOARD_ROWS - widget.placement.rows + 1)),
   };
-  if (destination.column === image.placement.column && destination.row === image.placement.row) return items;
+  if (destination.column === widget.placement.column && destination.row === widget.placement.row) return items;
 
-  const others = items.filter((item) => item.id !== imageId);
-  const solution = new Map([[imageId, destination]]);
+  const others = items.filter((item) => item.id !== widgetId);
+  const solution = new Map([[widgetId, destination]]);
   let best = null;
   let bestCost = Infinity;
 

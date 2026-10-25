@@ -1,6 +1,8 @@
-export function PlaylistWidget({ tracks, label, style }) {
+import { WidgetFrame } from './WidgetFrame';
+
+export function PlaylistWidget({ tracks, label, style, isEditing = false, onLongPress, onDelete, onMove }) {
   return (
-    <section className="playlist-widget" aria-label={label} style={style}>
+    <WidgetFrame as="section" className="playlist-widget" aria-label={label} style={style} isEditing={isEditing} onLongPress={onLongPress} onDelete={onDelete} onMove={onMove} deleteLabel={label}>
       <ol className="track-list">
         {tracks.map((track) => (
           <li className="track" key={track.id}>
@@ -12,6 +14,6 @@ export function PlaylistWidget({ tracks, label, style }) {
           </li>
         ))}
       </ol>
-    </section>
+    </WidgetFrame>
   );
 }

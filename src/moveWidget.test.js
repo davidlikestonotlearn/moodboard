@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { boardItems } from './data/sampleContent.js';
-import { moveImage } from './moveImage.js';
+import { moveWidget } from './moveWidget.js';
 
 function assertValidGrid(items) {
   const occupied = new Set();
@@ -19,16 +19,16 @@ function assertValidGrid(items) {
   }
 }
 
-test('moving each image to every cell keeps widgets in the grid without overlap', () => {
-  for (const image of boardItems.filter((item) => item.type === 'image')) {
+test('moving each image and the playlist keeps widgets in the grid without overlap', () => {
+  for (const widget of boardItems) {
     for (let row = 1; row <= 4; row++) {
       for (let column = 1; column <= 2; column++) {
-        const moved = moveImage(boardItems, image.id, column, row);
+        const moved = moveWidget(boardItems, widget.id, column, row);
         assert.equal(moved.length, boardItems.length);
         assertValidGrid(moved);
-        const target = moved.find((item) => item.id === image.id).placement;
-        assert.equal(target.column, column);
-        assert.equal(target.row, Math.min(row, 5 - image.placement.rows));
+        const target = moved.find((item) => item.id === widget.id).placement;
+        assert.equal(target.column, Math.min(column, 3 - widget.placement.columns));
+        assert.equal(target.row, Math.min(row, 5 - widget.placement.rows));
       }
     }
   }
@@ -36,7 +36,13 @@ test('moving each image to every cell keeps widgets in the grid without overlap'
 
 test('moving after deletion keeps the empty space available', () => {
   const withoutSunset = boardItems.filter((item) => item.id !== 'sunset');
-  const moved = moveImage(withoutSunset, 'ocean', 1, 2);
+  const moved = moveWidget(withoutSunset, 'ocean', 1, 2);
   assertValidGrid(moved);
   assert.deepEqual(moved.find((item) => item.id === 'ocean').placement, { column: 1, row: 2, columns: 1, rows: 1 });
+});
+
+test('playlist can move away from its starting row', () => {
+  const moved = moveWidget(boardItems, 'playlist', 2, 1);
+  assertValidGrid(moved);
+  assert.deepEqual(moved.find((item) => item.id === 'playlist').placement, { column: 1, row: 1, columns: 2, rows: 1 });
 });
