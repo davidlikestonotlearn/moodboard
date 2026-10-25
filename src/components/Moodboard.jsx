@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { ImageWidget } from './ImageWidget';
 import { PlaylistWidget } from './PlaylistWidget';
 
-export function Moodboard({ items, isEditing = false, onWidgetLongPress, onDeleteWidget, onMoveWidget }) {
+export function Moodboard({ items, isEditing = false, linksEnabled = false, onWidgetLongPress, onDeleteWidget, onMoveWidget, onEditWidgetLink }) {
   const boardRef = useRef(null);
 
   function moveToPointer(id, clientX, clientY) {
@@ -27,6 +27,8 @@ export function Moodboard({ items, isEditing = false, onWidgetLongPress, onDelet
           onLongPress: onWidgetLongPress,
           onDelete: onDeleteWidget ? () => onDeleteWidget(id) : undefined,
           onMove: onMoveWidget ? (x, y) => moveToPointer(id, x, y) : undefined,
+          onEditLink: onEditWidgetLink ? () => onEditWidgetLink(id) : undefined,
+          linksEnabled,
         };
         return type === 'playlist'
           ? <PlaylistWidget key={id} {...content} style={style} {...editingProps} />

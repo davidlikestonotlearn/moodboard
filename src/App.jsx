@@ -5,8 +5,10 @@ import { BottomNavigation } from './components/BottomNavigation';
 import { HomePage } from './components/HomePage';
 import { AllMoodboardsPage } from './components/AllMoodboardsPage';
 import { SettingsPage } from './components/SettingsPage';
+import { SpotifyLinkEditor } from './components/SpotifyLinkEditor';
 import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
+import { safeSpotifyUrl } from './spotifyLinks';
 
 export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
@@ -14,6 +16,15 @@ export function App() {
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
   const [isEditing, setIsEditing] = useState(false);
   const [boardItemsById, setBoardItemsById] = useState({});
+  const [editingLinkId, setEditingLinkId] = useState(null);
+  const [spotifyLinks, setSpotifyLinks] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('moodboard-spotify-links') || '{}');
+      return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+    } catch {
+      return {};
+    }
+  });
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem('moodboard-theme') === 'light' ? 'light' : 'dark';
@@ -23,9 +34,21 @@ export function App() {
   });
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
-  const boards = moodboards.map((board) => ({ ...board, items: boardItemsById[board.id] ?? board.items }));
+  const boards = moodboards.map((board) => ({
+    ...board,
+    items: (boardItemsById[board.id] ?? board.items).map((item) => {
+      const saved = spotifyLinks[board.id]?.[item.id];
+      if (!saved) return item;
+      return {
+        ...item,
+        spotifyUrl: safeSpotifyUrl(saved.url),
+        ...(item.tracks && { tracks: item.tracks.map((track) => ({ ...track, spotifyUrl: safeSpotifyUrl(saved.tracks?.[track.id]) })) }),
+      };
+    }),
+  }));
   const currentBoard = boards.find((board) => board.id === selectedBoard.id) ?? selectedBoard;
   const homeBoard = boards.find((board) => board.id === recentMoodboard.id) ?? recentMoodboard;
+  const editingLinkItem = isMoodboard ? currentBoard.items.find((item) => item.id === editingLinkId) : null;
   const pageTitle = showAllMoodboards
     ? 'All Moodboards'
     : isMoodboard
@@ -46,8 +69,17 @@ export function App() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem('moodboard-spotify-links', JSON.stringify(spotifyLinks));
+    } catch {
+      // Links still work until the page reloads when browser storage is unavailable.
+    }
+  }, [spotifyLinks]);
+
   function openMoodboard(board) {
     setIsEditing(false);
+    setEditingLinkId(null);
     setSelectedBoard(board);
     setSelectedTab('moodboards');
     setShowAllMoodboards(false);
@@ -55,11 +87,13 @@ export function App() {
 
   function selectTab(id) {
     setIsEditing(false);
+    setEditingLinkId(null);
     setSelectedTab(id);
     setShowAllMoodboards(false);
   }
 
   function deleteWidget(id) {
+    if (editingLinkId === id) setEditingLinkId(null);
     setBoardItemsById((previous) => ({
       ...previous,
       [currentBoard.id]: (previous[currentBoard.id] ?? currentBoard.items).filter((item) => item.id !== id),
@@ -73,6 +107,14 @@ export function App() {
     }));
   }
 
+  function saveSpotifyLinks(links) {
+    setSpotifyLinks((previous) => ({
+      ...previous,
+      [currentBoard.id]: { ...previous[currentBoard.id], [editingLinkId]: links },
+    }));
+    setEditingLinkId(null);
+  }
+
   return (
     <div className="app-shell">
       <Header
@@ -81,7 +123,7 @@ export function App() {
         showBoardTools={isMoodboard}
         isEditing={isEditing}
         onEdit={() => setIsEditing(true)}
-        onDoneEditing={() => setIsEditing(false)}
+        onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); }}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -93,10 +135,11 @@ export function App() {
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
           />
         )}
-        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onWidgetLongPress={() => setIsEditing(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} />}
+        {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
         {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
+      {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}
     </div>
   );
 }

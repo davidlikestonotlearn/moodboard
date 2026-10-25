@@ -1,6 +1,10 @@
 # Moodboard
 
-A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings lets you choose Dark or Light mode and remembers the choice in this browser; Dark is the default. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag an image or playlist to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Edits last only until the page reloads. Music widgets stay within the app; playback and external links are not connected. Other buttons remain visual only. There is no backend, authentication, or music service.
+A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings lets you choose Dark or Light mode and remembers the choice in this browser; Dark is the default. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag an image or playlist to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Movement and deletion last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or Spotify API integration.
+
+## Spotify links
+
+In edit mode, tap the link icon on an image or playlist. Paste a full `https://open.spotify.com/...` share link for an album, song, or playlist. The playlist editor also accepts a separate song link for each track. Save the links, then tap Done. A linked image opens its Spotify page; a linked playlist opens the playlist, while linked track rows open their individual songs. Links open in a new tab and are saved only in this browser's local storage. Clear a field and save to remove its link. The images, titles, and tracks remain the static sample content; links do not import music or provide playback.
 
 ## Run
 
