@@ -1,5 +1,5 @@
 // All sample content and grid placement live here. Components only render props.
-export const profile = { name: 'Alex', bio: 'Music, memories, and moments.', image: '/images/profile.jpg' };
+export const profile = { name: 'Alex', bio: 'Music, memories, and moments.', image: '/images/chrome-heart-avatar.png' };
 
 export const tracks = [
   { id: 'nights', title: 'Nights', artist: 'Frank Ocean', artwork: '/images/blonde.jpg' },

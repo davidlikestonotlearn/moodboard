@@ -40,7 +40,7 @@ export function WidgetFrame({ as: Component = 'div', className, style, isEditing
       setIsHolding(false);
       suppressClick.current = true;
       onLongPress();
-    }, 1000);
+    }, 700);
   }
 
   function checkMovement(event) {
