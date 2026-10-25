@@ -9,6 +9,7 @@ import { SpotifyLinkEditor } from './components/SpotifyLinkEditor';
 import { AddWidgetForm } from './components/AddWidgetForm';
 import { MoodboardNameForm } from './components/MoodboardNameForm';
 import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
+import { ProfilePanel } from './components/ProfilePanel';
 import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 
@@ -27,6 +28,8 @@ export function App() {
   const [editingLinkId, setEditingLinkId] = useState(null);
   const [showAddWidget, setShowAddWidget] = useState(false);
   const [theme, setTheme] = useState('dark');
+  const [userProfile, setUserProfile] = useState(profile);
+  const [showProfile, setShowProfile] = useState(false);
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const boards = [...createdBoards, ...moodboards]
@@ -127,7 +130,7 @@ export function App() {
   return (
     <div className="app-shell">
       <Header
-        profile={profile}
+        profile={userProfile}
         title={pageTitle}
         showBoardTools={isMoodboard && Boolean(currentBoard)}
         isEditing={isEditing}
@@ -136,6 +139,7 @@ export function App() {
         onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); setShowAddWidget(false); }}
         onRename={() => setNameFormMode('rename')}
         onDelete={() => setShowDeleteDialog(true)}
+        onProfile={() => setShowProfile(true)}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -157,6 +161,7 @@ export function App() {
       {showAddWidget && <AddWidgetForm items={currentBoard.items} onClose={() => setShowAddWidget(false)} onAdd={addWidget} />}
       {nameFormMode && <MoodboardNameForm mode={nameFormMode} initialTitle={nameFormMode === 'rename' ? currentBoard?.title : ''} onClose={() => setNameFormMode(null)} onSave={nameFormMode === 'create' ? createMoodboard : renameMoodboard} />}
       {showDeleteDialog && currentBoard && <DeleteMoodboardDialog title={currentBoard.title} onClose={() => setShowDeleteDialog(false)} onDelete={deleteMoodboard} />}
+      {showProfile && <ProfilePanel profile={userProfile} boards={boards} onSaveProfile={setUserProfile} onClose={() => setShowProfile(false)} onOpenMoodboard={(board) => { setShowProfile(false); openMoodboard(board); }} />}
     </div>
   );
 }

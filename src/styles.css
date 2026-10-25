@@ -82,7 +82,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .edit-header-actions { display: flex; align-items: center; gap: 8px; }
 .add-button { min-width: 56px; min-height: 40px; padding: 0 10px; border-radius: 20px; background: var(--surface-muted); font-size: 14px; font-weight: 700; cursor: pointer; }
 .done-button { min-width: 64px; min-height: 40px; padding: 0 12px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); font-size: 14px; font-weight: 700; cursor: pointer; }
-.profile-button { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
+.profile-button { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; cursor: pointer; }
 .profile-button img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .board-stage { flex: 1 1 0; min-height: 0; display: flex; align-items: center; justify-content: center; }
@@ -181,6 +181,33 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .link-editor-save { background: var(--accent-soft); color: var(--accent); }
 .link-editor-save:disabled { opacity: .45; cursor: not-allowed; }
 .delete-moodboard-help { margin-top: 16px; margin-bottom: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.profile-backdrop { position: fixed; inset: 0; z-index: 10; display: flex; justify-content: center; background: #0009; }
+.profile-drawer-frame { width: min(100%, 440px); height: 100%; display: flex; justify-content: flex-end; }
+.profile-panel { width: 70%; height: 100%; overflow-y: auto; padding: calc(20px + var(--safe-top)) 16px calc(24px + var(--safe-bottom)); border-radius: 20px 0 0 20px; background: var(--surface); color: var(--text); }
+.profile-panel-header { display: flex; align-items: center; justify-content: space-between; }
+.profile-panel-header h2 { margin: 0; font-size: 21px; letter-spacing: -.6px; }
+.profile-close { width: 44px; height: 44px; border-radius: 50%; color: var(--muted); font-size: 26px; cursor: pointer; }
+.profile-overview { padding-top: 12px; }
+.profile-avatar { display: block; width: 88px; height: 88px; border-radius: 50%; object-fit: cover; background: var(--image-background); }
+.profile-overview h3 { margin: 16px 0 4px; font-size: 23px; letter-spacing: -.6px; }
+.profile-overview p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+.profile-edit-button, .profile-photo-button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; padding: 0 15px; border-radius: 21px; background: var(--surface-muted); font-size: 13px; font-weight: 700; cursor: pointer; }
+.profile-edit-button { margin-top: 18px; }
+.profile-avatar-editor { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 12px; }
+.profile-photo-button { position: relative; }
+.profile-photo-button:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
+.profile-edit-form .link-field { margin-top: 16px; }
+.profile-edit-form textarea { width: 100%; min-height: 90px; padding: 12px 14px; border: 1px solid transparent; border-radius: 12px; outline: none; resize: vertical; background: var(--surface-muted); color: var(--text); font: inherit; font-weight: 400; }
+.profile-edit-form textarea:focus { border-color: var(--accent); }
+.profile-edit-actions { justify-content: space-between; gap: 6px; margin-top: 18px; }
+.profile-edit-actions button { padding: 0 10px; }
+.profile-boards { margin-top: 32px; }
+.profile-boards h3 { margin: 0 0 12px; font-size: 17px; line-height: 1.3; letter-spacing: -.35px; font-weight: 600; }
+.profile-boards .no-moodboards-message { text-align: left; }
+.profile-boards .moodboard-list-item { min-height: 60px; gap: 10px; }
+.profile-boards .moodboard-list-thumbnail { width: 48px; height: 48px; }
+.profile-boards .moodboard-list-title { font-size: 14px; }
 .add-widget-step { margin: 4px 0 18px; color: var(--muted); font-size: 13px; }
 .add-widget-options { display: grid; gap: 9px; }
 .add-widget-option { width: 100%; min-height: 60px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 13px; background: var(--surface-muted); text-align: left; cursor: pointer; }

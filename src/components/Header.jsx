@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from './Icon';
 
-export function Header({ profile, title = 'Moodboard', showBoardTools = true, isEditing = false, onEdit, onAdd, onDoneEditing, onRename, onDelete, onBack }) {
+export function Header({ profile, title = 'Moodboard', showBoardTools = true, isEditing = false, onEdit, onAdd, onDoneEditing, onRename, onDelete, onProfile, onBack }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -44,7 +44,7 @@ export function Header({ profile, title = 'Moodboard', showBoardTools = true, is
             <button type="button" className="board-option-delete" onClick={() => { setMenuOpen(false); onDelete(); }}>Delete moodboard</button>
           </div>}
         </div>)}
-        {!isEditing && <button type="button" className="profile-button" aria-label={`${profile.name}'s profile`}>
+        {!isEditing && <button type="button" className="profile-button" aria-label={`Open ${profile.name}'s profile`} onClick={onProfile}>
           <img src={profile.image} alt="" width="40" height="40" />
         </button>}
       </div>
