@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { MoodboardList } from './MoodboardList';
 
-export function ProfilePanel({ profile, boards, onSaveProfile, onOpenMoodboard, onClose }) {
-  const [isEditing, setIsEditing] = useState(false);
+export function ProfilePanel({ profile, boards, initialEditing = false, onSaveProfile, onOpenMoodboard, onClose }) {
+  const [isEditing, setIsEditing] = useState(initialEditing);
   const [draft, setDraft] = useState(profile);
   const [imageLoading, setImageLoading] = useState(false);
   const [error, setError] = useState('');

@@ -2,7 +2,7 @@
 
 A mobile-first React UI prototype. Home shows the last opened moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Create Moodboard asks for a name and opens an empty board; tap its grid to add the first widget. The three-dot menu lets you rename or delete a board. Privacy settings is a placeholder. Settings lets you choose Dark or Light mode; Dark is restored on refresh. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for 0.7 seconds or tap the organize icon to enter edit mode. Then drag a widget to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Changes last only until the page reloads. There is no backend, authentication, or Spotify API integration.
 
-Tap the header profile picture to open a full-height profile drawer. Edit the picture, name, and bio there, or open any of your moodboards from its list. Profile changes are kept in memory and reset on refresh.
+Tap the header profile picture to open a full-height profile drawer. Edit the picture, name, and bio there, or open any of your moodboards from its list. Settings also has an Edit profile button that opens the drawer directly in edit mode. Profile changes are kept in memory and reset on refresh.
 
 ## Spotify links
 

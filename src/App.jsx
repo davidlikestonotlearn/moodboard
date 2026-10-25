@@ -29,7 +29,7 @@ export function App() {
   const [showAddWidget, setShowAddWidget] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [userProfile, setUserProfile] = useState(profile);
-  const [showProfile, setShowProfile] = useState(false);
+  const [profilePanelMode, setProfilePanelMode] = useState(null);
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const boards = [...createdBoards, ...moodboards]
@@ -139,7 +139,7 @@ export function App() {
         onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); setShowAddWidget(false); }}
         onRename={() => setNameFormMode('rename')}
         onDelete={() => setShowDeleteDialog(true)}
-        onProfile={() => setShowProfile(true)}
+        onProfile={() => setProfilePanelMode('view')}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -154,14 +154,14 @@ export function App() {
         )}
         {isMoodboard && currentBoard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onAddWidget={() => setShowAddWidget(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
         {isMoodboard && !currentBoard && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
-        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}
       {showAddWidget && <AddWidgetForm items={currentBoard.items} onClose={() => setShowAddWidget(false)} onAdd={addWidget} />}
       {nameFormMode && <MoodboardNameForm mode={nameFormMode} initialTitle={nameFormMode === 'rename' ? currentBoard?.title : ''} onClose={() => setNameFormMode(null)} onSave={nameFormMode === 'create' ? createMoodboard : renameMoodboard} />}
       {showDeleteDialog && currentBoard && <DeleteMoodboardDialog title={currentBoard.title} onClose={() => setShowDeleteDialog(false)} onDelete={deleteMoodboard} />}
-      {showProfile && <ProfilePanel profile={userProfile} boards={boards} onSaveProfile={setUserProfile} onClose={() => setShowProfile(false)} onOpenMoodboard={(board) => { setShowProfile(false); openMoodboard(board); }} />}
+      {profilePanelMode && <ProfilePanel profile={userProfile} boards={boards} initialEditing={profilePanelMode === 'edit'} onSaveProfile={setUserProfile} onClose={() => setProfilePanelMode(null)} onOpenMoodboard={(board) => { setProfilePanelMode(null); openMoodboard(board); }} />}
     </div>
   );
 }

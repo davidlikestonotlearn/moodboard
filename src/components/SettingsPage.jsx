@@ -1,8 +1,13 @@
 import { Icon } from './Icon';
 
-export function SettingsPage({ theme, onThemeChange }) {
+export function SettingsPage({ theme, profile, onThemeChange, onEditProfile }) {
   return (
     <div className="settings-page">
+      <button type="button" className="settings-profile-button" onClick={onEditProfile}>
+        <img src={profile.image} alt="" width="44" height="44" />
+        <span>Edit profile</span>
+        <Icon name="chevronRight" />
+      </button>
       <section className="settings-section" aria-labelledby="appearance-heading">
         <h2 id="appearance-heading">Appearance</h2>
         <div className="theme-options" role="group" aria-label="Color theme">
