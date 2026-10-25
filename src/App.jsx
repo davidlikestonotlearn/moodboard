@@ -113,6 +113,7 @@ export function App() {
       [currentBoard.id]: { ...previous[currentBoard.id], [editingLinkId]: links },
     }));
     setEditingLinkId(null);
+    setIsEditing(false);
   }
 
   return (

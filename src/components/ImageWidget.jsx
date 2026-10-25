@@ -5,7 +5,7 @@ export function ImageWidget({ src, alt, position = 'center', spotifyUrl = '', li
   return (
     <WidgetFrame as="figure" className={`image-widget ${className}`} style={style} isEditing={isEditing} onLongPress={onLongPress} onDelete={onDelete} onMove={onMove} onEditLink={onEditLink} hasSpotifyLink={Boolean(spotifyUrl)} deleteLabel={alt}>
       {linksEnabled && spotifyUrl && !isEditing
-        ? <a className="image-spotify-link" href={spotifyUrl} target="_blank" rel="noopener noreferrer" draggable="false" aria-label={`Open ${alt} on Spotify`}>{image}</a>
+        ? <a className="image-spotify-link" href={spotifyUrl} draggable="false" aria-label={`Open ${alt} on Spotify`}>{image}</a>
         : image}
     </WidgetFrame>
   );

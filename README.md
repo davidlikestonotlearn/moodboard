@@ -4,7 +4,7 @@ A mobile-first React UI prototype. Home shows a recent moodboard preview and an 
 
 ## Spotify links
 
-In edit mode, tap the link icon on an image or playlist. Paste a full `https://open.spotify.com/...` share link for an album, song, or playlist. The playlist editor also accepts a separate song link for each track. Save the links, then tap Done. A linked image opens its Spotify page; a linked playlist opens the playlist, while linked track rows open their individual songs. Links open in a new tab and are saved only in this browser's local storage. Clear a field and save to remove its link. The images, titles, and tracks remain the static sample content; links do not import music or provide playback.
+In edit mode, tap the link icon on an image or playlist. Paste a full `https://open.spotify.com/...` share link for an album, song, or playlist. The playlist editor also accepts a separate song link for each track. Save the links to leave edit mode, then quickly tap the linked image or song row on the Moodboards tab. A linked image opens its Spotify page; the playlist link opens the whole playlist, while linked track rows open their individual songs. Holding a widget for one second enters edit mode instead of opening Spotify. Links navigate the current tab to Spotify and are saved only in this browser's local storage. Clear a field and save to remove its link. The images, titles, and tracks remain the static sample content; links do not import music or provide playback.
 
 ## Run
 

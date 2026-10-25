@@ -32,7 +32,12 @@ export function SpotifyLinkEditor({ item, onClose, onSave }) {
           <h2 id="link-editor-title">Spotify links</h2>
           <button type="button" className="link-editor-close" aria-label="Close link editor" onClick={onClose}>×</button>
         </div>
-        <p className="link-editor-help">Paste links copied from Spotify. Leave a field empty to remove its link.</p>
+        <p className="link-editor-help">
+          {item.type === 'playlist'
+            ? 'The playlist link opens the whole playlist. Paste a separate track link beside each song you want to open directly.'
+            : 'Paste a Spotify album or song share link for this image.'}
+          {' '}Saving closes edit mode so you can tap to open Spotify. Leave a field empty to remove its link.
+        </p>
         <label className="link-field" htmlFor="widget-spotify-url">
           <span>{item.type === 'playlist' ? 'Playlist' : 'Album or song'} link</span>
           <input
