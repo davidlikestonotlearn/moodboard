@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Header } from './components/Header';
 import { Moodboard } from './components/Moodboard';
 import { BottomNavigation } from './components/BottomNavigation';
@@ -14,6 +14,13 @@ export function App() {
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
   const [isEditing, setIsEditing] = useState(false);
   const [boardItemsById, setBoardItemsById] = useState({});
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('moodboard-theme') === 'light' ? 'light' : 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const boards = moodboards.map((board) => ({ ...board, items: boardItemsById[board.id] ?? board.items }));
@@ -28,6 +35,16 @@ export function App() {
   useEffect(() => {
     if (isMoodboard) mainContentRef.current?.focus();
   }, [isMoodboard, selectedBoard]);
+
+  useLayoutEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101114' : '#ffffff');
+    try {
+      localStorage.setItem('moodboard-theme', theme);
+    } catch {
+      // The theme still works for this session when browser storage is unavailable.
+    }
+  }, [theme]);
 
   function openMoodboard(board) {
     setIsEditing(false);
@@ -77,7 +94,7 @@ export function App() {
           />
         )}
         {isMoodboard && <Moodboard items={currentBoard.items} isEditing={isEditing} onWidgetLongPress={() => setIsEditing(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} />}
-        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
     </div>
