@@ -33,7 +33,7 @@ export function ImageWidget({ src, alt, position = 'center', className = '', sty
       startPoint.current = null;
       setIsHolding(false);
       onLongPress();
-    }, 2000);
+    }, 1500);
   }
 
   function checkMovement(event) {
