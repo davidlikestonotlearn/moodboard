@@ -2,10 +2,11 @@ import { useRef } from 'react';
 import { ImageWidget } from './ImageWidget';
 import { SongWidget } from './SongWidget';
 import { PlaylistWidget } from './PlaylistWidget';
-import { playlistTrackLimit } from '../boardSpace';
+import { availablePlacements, playlistTrackLimit, WIDGET_SIZES } from '../boardSpace';
 
 export function Moodboard({ items, isEditing = false, linksEnabled = false, onWidgetLongPress, onAddWidget, onDeleteWidget, onMoveWidget, onEditWidgetLink }) {
   const boardRef = useRef(null);
+  const emptyCells = availablePlacements(items, WIDGET_SIZES[0]);
 
   function moveToPointer(id, clientX, clientY) {
     if (!onMoveWidget || !boardRef.current) return;
@@ -19,12 +20,8 @@ export function Moodboard({ items, isEditing = false, linksEnabled = false, onWi
 
   return (
     <div ref={boardRef} className={`moodboard${isEditing ? ' is-editing' : ''}`}>
-      {items.length === 0 && (
-        <>
-          {Array.from({ length: 8 }, (_, index) => <div key={index} className="empty-board-slot" aria-hidden="true" />)}
-          {onAddWidget && <button type="button" className="empty-board-action" onClick={onAddWidget}>Your moodboard is empty.<br />Tap anywhere to add a widget.</button>}
-        </>
-      )}
+      {emptyCells.map(({ column, row }) => <div key={`${column}-${row}`} className="empty-board-slot" style={{ gridColumn: column, gridRow: row }} aria-hidden="true" />)}
+      {items.length === 0 && onAddWidget && <button type="button" className="empty-board-action" onClick={onAddWidget}>Your moodboard is empty.<br />Tap anywhere to add a widget.</button>}
       {items.map(({ id, type, placement, ...content }) => {
         const style = {
           gridColumn: `${placement.column} / span ${placement.columns}`,

@@ -9,4 +9,7 @@ These images are sample content for the visual prototype, not connected service 
 - Sunset: [Unsplash](https://images.unsplash.com/photo-1472120435266-53107fd0c44a).
 - Ocean: [Unsplash](https://images.unsplash.com/photo-1518837695005-2083093ee35b).
 - Profile avatar: Original generated chrome heart artwork inspired by gothic jewelry. It is not an official Chrome Hearts logo.
+- GABRIEL and Requiem, keshi: [Apple Music](https://music.apple.com/us/album/gabriel/1610439611), [Apple Music](https://music.apple.com/us/album/requiem/1755274994).
+- Midnights, Taylor Swift: [Apple Music](https://music.apple.com/us/album/midnights/1645937249).
+- eternal sunshine, Ariana Grande: [Apple Music](https://music.apple.com/us/album/eternal-sunshine/1725877944).
 - DM Sans: Google Fonts, SIL Open Font License.

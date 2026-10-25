@@ -40,7 +40,7 @@ Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each boa
 
 Opening the recent preview selects its board, activates the middle Moodboards tab, and moves keyboard focus into the board content.
 
-The `moodboards` array supplies the All Moodboards screen. It currently contains the one sample board; add board objects with an `id`, `title`, and `items` to expand the list.
+The `moodboards` array supplies the All Moodboards screen. It contains the original board, a full keshi board, and a half-complete Taylor Swift and Ariana Grande board. Add board objects with an `id`, `title`, and `items` to expand the list.
 
 The board uses square grid cells sized to both viewport dimensions. The header and navigation remain outside the grid, and safe-area insets are added to the shell padding. On desktop, the app stays centered at a maximum width of 440px.
 
