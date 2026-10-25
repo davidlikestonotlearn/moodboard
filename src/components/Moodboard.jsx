@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { ImageWidget } from './ImageWidget';
+import { SongWidget } from './SongWidget';
 import { PlaylistWidget } from './PlaylistWidget';
+import { playlistTrackLimit } from '../boardSpace';
 
 export function Moodboard({ items, isEditing = false, linksEnabled = false, onWidgetLongPress, onDeleteWidget, onMoveWidget, onEditWidgetLink }) {
   const boardRef = useRef(null);
@@ -27,12 +29,14 @@ export function Moodboard({ items, isEditing = false, linksEnabled = false, onWi
           onLongPress: onWidgetLongPress,
           onDelete: onDeleteWidget ? () => onDeleteWidget(id) : undefined,
           onMove: onMoveWidget ? (x, y) => moveToPointer(id, x, y) : undefined,
-          onEditLink: onEditWidgetLink ? () => onEditWidgetLink(id) : undefined,
+          onEditLink: type !== 'image' && onEditWidgetLink ? () => onEditWidgetLink(id) : undefined,
           linksEnabled,
         };
         return type === 'playlist'
-          ? <PlaylistWidget key={id} {...content} style={style} {...editingProps} />
-          : <ImageWidget key={id} {...content} style={style} {...editingProps} />;
+          ? <PlaylistWidget key={id} {...content} style={style} maxTracks={playlistTrackLimit(placement)} {...editingProps} />
+          : type === 'song'
+            ? <SongWidget key={id} {...content} style={style} {...editingProps} />
+            : <ImageWidget key={id} {...content} style={style} {...editingProps} />;
       })}
     </div>
   );

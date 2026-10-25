@@ -6,9 +6,9 @@ import { HomePage } from './components/HomePage';
 import { AllMoodboardsPage } from './components/AllMoodboardsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { SpotifyLinkEditor } from './components/SpotifyLinkEditor';
+import { AddWidgetForm } from './components/AddWidgetForm';
 import { moodboards, profile, navigationItems, recentMoodboard } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
-import { safeSpotifyUrl } from './spotifyLinks';
 
 export function App() {
   const [selectedTab, setSelectedTab] = useState('home');
@@ -17,35 +17,11 @@ export function App() {
   const [isEditing, setIsEditing] = useState(false);
   const [boardItemsById, setBoardItemsById] = useState({});
   const [editingLinkId, setEditingLinkId] = useState(null);
-  const [spotifyLinks, setSpotifyLinks] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('moodboard-spotify-links') || '{}');
-      return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
-    } catch {
-      return {};
-    }
-  });
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem('moodboard-theme') === 'light' ? 'light' : 'dark';
-    } catch {
-      return 'dark';
-    }
-  });
+  const [showAddWidget, setShowAddWidget] = useState(false);
+  const [theme, setTheme] = useState('dark');
   const mainContentRef = useRef(null);
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
-  const boards = moodboards.map((board) => ({
-    ...board,
-    items: (boardItemsById[board.id] ?? board.items).map((item) => {
-      const saved = spotifyLinks[board.id]?.[item.id];
-      if (!saved) return item;
-      return {
-        ...item,
-        spotifyUrl: safeSpotifyUrl(saved.url),
-        ...(item.tracks && { tracks: item.tracks.map((track) => ({ ...track, spotifyUrl: safeSpotifyUrl(saved.tracks?.[track.id]) })) }),
-      };
-    }),
-  }));
+  const boards = moodboards.map((board) => ({ ...board, items: boardItemsById[board.id] ?? board.items }));
   const currentBoard = boards.find((board) => board.id === selectedBoard.id) ?? selectedBoard;
   const homeBoard = boards.find((board) => board.id === recentMoodboard.id) ?? recentMoodboard;
   const editingLinkItem = isMoodboard ? currentBoard.items.find((item) => item.id === editingLinkId) : null;
@@ -62,24 +38,12 @@ export function App() {
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101114' : '#ffffff');
-    try {
-      localStorage.setItem('moodboard-theme', theme);
-    } catch {
-      // The theme still works for this session when browser storage is unavailable.
-    }
   }, [theme]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('moodboard-spotify-links', JSON.stringify(spotifyLinks));
-    } catch {
-      // Links still work until the page reloads when browser storage is unavailable.
-    }
-  }, [spotifyLinks]);
 
   function openMoodboard(board) {
     setIsEditing(false);
     setEditingLinkId(null);
+    setShowAddWidget(false);
     setSelectedBoard(board);
     setSelectedTab('moodboards');
     setShowAllMoodboards(false);
@@ -88,6 +52,7 @@ export function App() {
   function selectTab(id) {
     setIsEditing(false);
     setEditingLinkId(null);
+    setShowAddWidget(false);
     setSelectedTab(id);
     setShowAllMoodboards(false);
   }
@@ -107,13 +72,21 @@ export function App() {
     }));
   }
 
-  function saveSpotifyLinks(links) {
-    setSpotifyLinks((previous) => ({
+  function saveSpotifyLinks(url) {
+    setBoardItemsById((previous) => ({
       ...previous,
-      [currentBoard.id]: { ...previous[currentBoard.id], [editingLinkId]: links },
+      [currentBoard.id]: (previous[currentBoard.id] ?? currentBoard.items).map((item) => item.id === editingLinkId ? { ...item, spotifyUrl: url } : item),
     }));
     setEditingLinkId(null);
     setIsEditing(false);
+  }
+
+  function addWidget(widget) {
+    setBoardItemsById((previous) => ({
+      ...previous,
+      [currentBoard.id]: [...(previous[currentBoard.id] ?? currentBoard.items), widget],
+    }));
+    setShowAddWidget(false);
   }
 
   return (
@@ -124,7 +97,8 @@ export function App() {
         showBoardTools={isMoodboard}
         isEditing={isEditing}
         onEdit={() => setIsEditing(true)}
-        onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); }}
+        onAdd={() => setShowAddWidget(true)}
+        onDoneEditing={() => { setIsEditing(false); setEditingLinkId(null); setShowAddWidget(false); }}
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
@@ -141,6 +115,7 @@ export function App() {
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}
+      {showAddWidget && <AddWidgetForm items={currentBoard.items} onClose={() => setShowAddWidget(false)} onAdd={addWidget} />}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 # Moodboard
 
-A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings lets you choose Dark or Light mode and remembers the choice in this browser; Dark is the default. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag an image or playlist to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Movement and deletion last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or Spotify API integration.
+A mobile-first React UI prototype. Home shows a recent moodboard preview and an All Moodboards button. The button opens a list of board names with thumbnails of their first widget. Select a board to view it, or use the top-left back button to return Home. Settings lets you choose Dark or Light mode; Dark is restored on refresh. Log out is presentational and has no action yet. On the Moodboards tab, hold any widget for one second or tap the organize icon to enter edit mode. Then drag a widget to move it, tap its × button to delete it, or tap Done to leave edit mode. Other widgets shift to keep the fixed grid aligned. Edits last only until the page reloads. Other buttons remain visual only. There is no backend, authentication, or Spotify API integration.
 
 ## Spotify links
 
-In edit mode, tap the link icon on an image or playlist. Paste a full `https://open.spotify.com/...` share link for an album, song, or playlist. The playlist editor also accepts a separate song link for each track. Save the links to leave edit mode, then quickly tap the linked image or song row on the Moodboards tab. A linked image opens its Spotify page; the playlist link opens the whole playlist, while linked track rows open their individual songs. Holding a widget for one second enters edit mode instead of opening Spotify. Links navigate the current tab to Spotify and are saved only in this browser's local storage. Clear a field and save to remove its link. The images, titles, and tracks remain the static sample content; links do not import music or provide playback.
+There are three widget types: Image (no link), Song (artwork linked to a Spotify song or album), and Playlist (a whole-card link to a Spotify playlist). In edit mode, tap the link icon on a Song or Playlist to change its link. Paste a full `https://open.spotify.com/...` share link. Save to leave edit mode, then quickly tap the widget on the Moodboards tab to open Spotify. Holding a widget for one second enters edit mode instead. Links navigate the current tab to Spotify.
+
+Tap Add in edit mode to choose a size, then a widget type, then its content. Sizes without a contiguous free spot are disabled. Image and Song widgets accept an uploaded image; Song also needs a Spotify link. Playlist is available only in the horizontal 2×1 or large 2×2 size. The 2×1 card displays up to three manually entered songs; the 2×2 card displays up to six at similar row spacing. Playlist needs a title and Spotify playlist link, and can use an uploaded cover. The optional Fetch Spotify art button asks Spotify's public oEmbed endpoint for a title and thumbnail. If the request is unavailable, upload an image instead. oEmbed does not provide the playlist's songs, so enter the rows manually. Uploads, links, movement, and deletion are held in memory and reset on refresh.
 
 ## Run
 
@@ -30,7 +32,7 @@ Create a production build with `npm.cmd run build`; serve it with `npm.cmd run p
 
 ## Replace the sample content
 
-Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each board item declares its starting column/row and column/row span. The board always has two columns and four rows. The reusable image and playlist widgets also support the other requested spans, including 2×2.
+Edit `src/data/sampleContent.js` and replace assets in `public/images`. Each board item declares its starting column/row and column/row span. The board always has two columns and four rows. Image and Song widgets support all four sizes; Playlist uses 2×1 or 2×2.
 
 `recentMoodboard` sets the Home preview's title and items. `HomePage` renders the two Home sections, and `MoodboardPreview` crops the existing board to its top two rows so the preview uses the same arrangement.
 
