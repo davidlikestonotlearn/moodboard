@@ -23,6 +23,11 @@ export function SettingsPage({ theme, profile, loginActivity, onThemeChange, onE
           </button>
         </div>
       </section>
+      <button type="button" className="settings-link-button">
+        <Icon name="privacy" />
+        <span>Privacy</span>
+        <Icon name="chevronRight" />
+      </button>
       <button type="button" className="logout-button">
         <Icon name="logout" />
         <span>Log out</span>
