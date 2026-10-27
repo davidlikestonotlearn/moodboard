@@ -5,7 +5,7 @@ A mobile-first React UI prototype. Home shows the last opened moodboard preview 
 Tap the header profile picture to open a full-height profile drawer. Edit the picture, name, and bio there, or open any of your moodboards from its list. Settings also has an Edit profile button that opens the drawer directly in edit mode. Profile changes are kept in memory and reset on refresh.
 
 Settings includes a GitHub-style daily login grid. All 13 weeks are empty sample data for now; it does not record visits yet.
-The Privacy button in Settings is presentational for now.
+The Privacy and Help buttons in Settings are presentational for now.
 
 ## Spotify links
 

@@ -1,6 +1,7 @@
 const paths = {
   logout: <><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" /><path d="M10 12h11m-4-4 4 4-4 4" /></>,
   privacy: <><path d="M12 2.5 20 6v5.3c0 4.8-3.1 8.4-8 10.2-4.9-1.8-8-5.4-8-10.2V6Z" /><path d="M9.5 12.2 11.2 14l3.6-3.8" /></>,
+  help: <><circle cx="12" cy="12" r="9" /><path d="M9.5 9.2a2.7 2.7 0 1 1 4.2 2.2c-1.1.8-1.7 1.3-1.7 2.7" /><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none" /></>,
   back: <><path d="m14 5-7 7 7 7" /><path d="M7 12h14" /></>,
   chevronRight: <path d="m9 5 7 7-7 7" />,
   home: <><path d="m3.5 10 8.5-7 8.5 7v9a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19Z" /><path d="M9 20.5v-7h6v7" /></>,

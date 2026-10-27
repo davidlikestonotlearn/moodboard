@@ -102,6 +102,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .theme-option svg { width: 19px; height: 19px; }
 .theme-option.is-selected { background: var(--surface); color: var(--text); box-shadow: var(--button-shadow); }
 .settings-link-button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; margin-top: 20px; text-align: left; cursor: pointer; }
+.settings-link-button + .settings-link-button { margin-top: 0; }
 .settings-link-button span { flex: 1; font-size: 15px; font-weight: 500; }
 .settings-link-button svg:first-child { width: 22px; height: 22px; }
 .settings-link-button svg:last-child { width: 18px; height: 18px; color: var(--muted); }
