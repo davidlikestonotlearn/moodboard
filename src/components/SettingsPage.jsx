@@ -1,7 +1,6 @@
 import { Icon } from './Icon';
-import { DailyLoginGrid } from './DailyLoginGrid';
 
-export function SettingsPage({ theme, profile, loginActivity, onThemeChange, onEditProfile }) {
+export function SettingsPage({ theme, profile, onThemeChange, onEditProfile }) {
   return (
     <div className="settings-page">
       <button type="button" className="settings-profile-button" onClick={onEditProfile}>
@@ -9,7 +8,6 @@ export function SettingsPage({ theme, profile, loginActivity, onThemeChange, onE
         <span>Edit profile</span>
         <Icon name="chevronRight" />
       </button>
-      <DailyLoginGrid days={loginActivity} />
       <section className="settings-section" aria-labelledby="appearance-heading">
         <h2 id="appearance-heading">Appearance</h2>
         <div className="theme-options" role="group" aria-label="Color theme">

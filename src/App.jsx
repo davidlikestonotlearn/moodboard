@@ -147,6 +147,7 @@ export function App() {
         {!showAllMoodboards && selectedTab === 'home' && (
           <HomePage
             board={homeBoard}
+            loginActivity={dailyLoginActivity}
             onOpenMoodboard={openMoodboard}
             onOpenAllMoodboards={() => setShowAllMoodboards(true)}
             onCreateMoodboard={() => setNameFormMode('create')}
@@ -154,7 +155,7 @@ export function App() {
         )}
         {isMoodboard && currentBoard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onAddWidget={() => setShowAddWidget(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
         {isMoodboard && !currentBoard && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
-        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} loginActivity={dailyLoginActivity} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}

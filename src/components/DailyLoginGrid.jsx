@@ -1,7 +1,7 @@
 export function DailyLoginGrid({ days }) {
   const activeDays = days.filter(Boolean).length;
   return (
-    <section className="settings-section daily-login-section" aria-labelledby="daily-login-heading">
+    <section className="daily-login-section" aria-labelledby="daily-login-heading">
       <h2 id="daily-login-heading">Daily logins</h2>
       <div className="daily-login-grid" role="img" aria-label={`${activeDays} days with a login in the last ${days.length / 7} weeks`}>
         {days.map((count, index) => (
