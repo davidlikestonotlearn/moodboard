@@ -1,6 +1,9 @@
 // All sample content and grid placement live here. Components only render props.
 export const profile = { name: 'Alex', bio: 'Music, memories, and moments.', image: '/images/chrome-heart-avatar.png' };
 
+// Thirteen empty weeks for the presentational daily login grid.
+export const dailyLoginActivity = Array(91).fill(0);
+
 export const tracks = [
   { id: 'nights', title: 'Nights', artist: 'Frank Ocean', artwork: '/images/blonde.jpg' },
   { id: 'good-days', title: 'Good Days', artist: 'SZA', artwork: '/images/good-days.jpg' },

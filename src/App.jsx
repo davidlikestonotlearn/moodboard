@@ -10,7 +10,7 @@ import { AddWidgetForm } from './components/AddWidgetForm';
 import { MoodboardNameForm } from './components/MoodboardNameForm';
 import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
 import { ProfilePanel } from './components/ProfilePanel';
-import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard } from './data/sampleContent';
+import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard, dailyLoginActivity } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 
 export function App() {
@@ -154,7 +154,7 @@ export function App() {
         )}
         {isMoodboard && currentBoard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onAddWidget={() => setShowAddWidget(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
         {isMoodboard && !currentBoard && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
-        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} loginActivity={dailyLoginActivity} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}

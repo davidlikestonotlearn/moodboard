@@ -4,6 +4,8 @@ A mobile-first React UI prototype. Home shows the last opened moodboard preview 
 
 Tap the header profile picture to open a full-height profile drawer. Edit the picture, name, and bio there, or open any of your moodboards from its list. Settings also has an Edit profile button that opens the drawer directly in edit mode. Profile changes are kept in memory and reset on refresh.
 
+Settings includes a GitHub-style daily login grid. All 13 weeks are empty sample data for now; it does not record visits yet.
+
 ## Spotify links
 
 There are three widget types: Image (no link), Song (artwork linked to a Spotify song or album), and Playlist (a whole-card link to a Spotify playlist). In edit mode, tap the link icon on a Song or Playlist to change its link. Paste a full `https://open.spotify.com/...` share link. Save to leave edit mode, then quickly tap the widget on the Moodboards tab to open Spotify. Holding a widget for 0.7 seconds enters edit mode instead. Links navigate the current tab to Spotify.
