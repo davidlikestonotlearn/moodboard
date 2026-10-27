@@ -5,6 +5,9 @@ import { DailyLoginGrid } from './DailyLoginGrid';
 export function HomePage({ board, loginActivity, onOpenMoodboard, onOpenAllMoodboards, onCreateMoodboard }) {
   return (
     <div className="home-page">
+      <button type="button" className="create-moodboard-button" onClick={onCreateMoodboard}>
+        Create Moodboard
+      </button>
       <div className={`home-top-sections${board ? ' has-recent' : ''}`}>
         {board && <section className="home-section" aria-labelledby="recent-moodboard-heading">
           <h2 id="recent-moodboard-heading">Recent Moodboard</h2>
@@ -27,9 +30,6 @@ export function HomePage({ board, loginActivity, onOpenMoodboard, onOpenAllMoodb
             <Icon name="chevronRight" />
           </button>
         </h2>
-        <button type="button" className="create-moodboard-button" onClick={onCreateMoodboard}>
-          Create Moodboard
-        </button>
       </section>
     </div>
   );
