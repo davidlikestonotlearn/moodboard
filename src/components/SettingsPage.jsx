@@ -1,6 +1,6 @@
 import { Icon } from './Icon';
 
-export function SettingsPage({ theme, profile, onThemeChange, onEditProfile }) {
+export function SettingsPage({ theme, profile, onThemeChange, onEditProfile, onLogOut }) {
   return (
     <div className="settings-page">
       <button type="button" className="settings-profile-button" onClick={onEditProfile}>
@@ -31,7 +31,7 @@ export function SettingsPage({ theme, profile, onThemeChange, onEditProfile }) {
         <span>Help</span>
         <Icon name="chevronRight" />
       </button>
-      <button type="button" className="logout-button">
+      <button type="button" className="logout-button" onClick={onLogOut}>
         <Icon name="logout" />
         <span>Log out</span>
       </button>

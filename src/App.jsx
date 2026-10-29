@@ -97,6 +97,18 @@ export function App() {
     setShowAllMoodboards(false);
   }
 
+  function logOut() {
+    setIsEditing(false);
+    setEditingLinkId(null);
+    setShowAddWidget(false);
+    setNameFormMode(null);
+    setShowDeleteDialog(false);
+    setProfilePanelMode(null);
+    setShowAllMoodboards(false);
+    setSelectedTab('home');
+    setShowWelcome(true);
+  }
+
   function deleteWidget(id) {
     if (editingLinkId === id) setEditingLinkId(null);
     setBoardItemsById((previous) => ({
@@ -159,7 +171,7 @@ export function App() {
         )}
         {isMoodboard && currentBoard && <Moodboard items={currentBoard.items} isEditing={isEditing} linksEnabled onWidgetLongPress={() => setIsEditing(true)} onAddWidget={() => setShowAddWidget(true)} onDeleteWidget={deleteWidget} onMoveWidget={moveBoardWidget} onEditWidgetLink={setEditingLinkId} />}
         {isMoodboard && !currentBoard && <p className="no-moodboards-message">No moodboards yet. Create one from Home.</p>}
-        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} />}
+        {!showAllMoodboards && selectedTab === 'settings' && <SettingsPage theme={theme} profile={userProfile} onThemeChange={setTheme} onEditProfile={() => setProfilePanelMode('edit')} onLogOut={logOut} />}
       </main>
       <BottomNavigation items={navigationItems} selectedId={selectedTab} onSelect={selectTab} />
       {editingLinkItem && <SpotifyLinkEditor key={editingLinkItem.id} item={editingLinkItem} onClose={() => setEditingLinkId(null)} onSave={saveSpotifyLinks} />}
