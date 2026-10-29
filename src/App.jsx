@@ -10,10 +10,12 @@ import { AddWidgetForm } from './components/AddWidgetForm';
 import { MoodboardNameForm } from './components/MoodboardNameForm';
 import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
 import { ProfilePanel } from './components/ProfilePanel';
+import { WelcomePage } from './components/WelcomePage';
 import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard, dailyLoginActivity } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 
 export function App() {
+  const [showWelcome, setShowWelcome] = useState(true);
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
@@ -49,9 +51,9 @@ export function App() {
   }, [isMoodboard, selectedBoard]);
 
   useLayoutEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101114' : '#ffffff');
-  }, [theme]);
+    document.documentElement.dataset.theme = showWelcome ? 'light' : theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', showWelcome ? '#f7f5ef' : theme === 'dark' ? '#101114' : '#ffffff');
+  }, [theme, showWelcome]);
 
   function openMoodboard(board) {
     setIsEditing(false);
@@ -126,6 +128,8 @@ export function App() {
     }));
     setShowAddWidget(false);
   }
+
+  if (showWelcome) return <WelcomePage onContinueAsGuest={() => setShowWelcome(false)} />;
 
   return (
     <div className="app-shell">
