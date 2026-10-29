@@ -6,7 +6,7 @@ The app opens on a visual sign-in screen inspired by the MUDO reference. Google,
 
 Tap the header profile picture to open a full-height profile drawer. Edit the picture, name, and bio there, or open any of your moodboards from its list. Settings also has an Edit profile button that opens the drawer directly in edit mode. Profile changes are kept in memory and reset on refresh.
 
-Home includes a GitHub-style daily login grid beside a smaller square Recent Moodboard preview. All 13 weeks are empty sample data for now; it does not record visits yet.
+Home includes a GitHub-style daily login grid below All Moodboards, at the bottom of the page. All 13 weeks are empty sample data for now; it does not record visits yet.
 The Privacy and Help buttons in Settings are presentational for now.
 
 ## Spotify links
