@@ -52,17 +52,6 @@ body { overflow: hidden; overscroll-behavior: none; }
 button { font: inherit; color: inherit; border: 0; padding: 0; background: none; -webkit-tap-highlight-color: transparent; }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
-
-.mudo-offset { position: relative; isolation: isolate; }
-.mudo-offset::after { content: ''; position: absolute; inset: 4px -4px -4px 4px; z-index: -1; border-right: 2px solid #626161; border-bottom: 2px solid #626161; pointer-events: none; }
-.mudo-mark { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; color: #161513; }
-.mudo-mark-dots { width: 40px; height: 40px; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px; }
-.mudo-mark-dots span { border-radius: 50%; background: #8d8984; }
-.mudo-mark-dots span:nth-child(2) { background: #626161; }
-.mudo-mark-dots span:nth-child(3) { background: #4d4840; }
-.mudo-mark-dots span:nth-child(4) { background: #ada59c; }
-.mudo-mark-name { font-family: 'Asangha Condensed', 'Arial Narrow', sans-serif; font-size: 25px; line-height: 1; font-stretch: condensed; }
 
 .welcome-page {
   width: 100%;
@@ -72,37 +61,33 @@ body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  padding: calc(24px + var(--safe-top)) 24px calc(22px + var(--safe-bottom));
+  padding: calc(32px + var(--safe-top)) 24px calc(32px + var(--safe-bottom));
   color: #161513;
-  background: #fcfaf6;
+  background: #f7f5ef;
+  background-image: radial-gradient(#918c8110 0.6px, transparent 0.7px);
+  background-size: 5px 5px;
 }
-.welcome-header { width: min(100%, 390px); display: flex; align-items: flex-start; justify-content: space-between; }
-.welcome-corner-tile { display: block; width: 76px; height: 30px; background: #ebe7e1; }
-.welcome-hero { width: min(100%, 340px); margin-top: clamp(12px, 3vh, 28px); }
-.welcome-tagline { margin: 0 0 8px; color: #4a4949; font-family: 'Asangha Condensed', 'Arial Narrow', sans-serif; font-size: 16px; font-stretch: condensed; text-align: right; }
-.welcome-collage { display: block; width: min(100%, 305px); height: auto; margin-inline: auto; }
-.welcome-title { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin: 12px 0 0; color: #4a4949; font-family: 'Asangha Condensed', 'Arial Narrow', sans-serif; font-size: 24px; font-weight: 400; font-stretch: condensed; white-space: nowrap; }
-.welcome-title strong { font-size: 32px; font-weight: 700; }
-.welcome-actions { width: min(100%, 340px); display: flex; flex-direction: column; align-items: stretch; gap: 12px; margin-top: auto; }
+.welcome-spacer { flex: 1; min-height: 60px; }
+.welcome-actions { width: min(100%, 390px); display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
 .welcome-button {
   position: relative;
-  min-height: 54px;
+  min-height: 62px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 48px;
-  background: #ebe7e1;
+  background: #fff9ec;
   color: #080808;
-  font-size: clamp(17px, 5vw, 20px);
+  font-size: clamp(17px, 5vw, 21px);
   line-height: 1.2;
-  font-weight: 400;
-  letter-spacing: -0.035em;
+  font-weight: 700;
+  letter-spacing: -0.045em;
   text-align: center;
 }
 .welcome-button img { position: absolute; left: 24px; width: 27px; height: 27px; object-fit: contain; }
 .welcome-button:disabled { opacity: 1; }
-.welcome-divider { padding: 2px 0; color: #8d8984; font-size: 16px; line-height: 1.3; text-align: center; }
-.welcome-guest { align-self: center; min-height: 38px; margin-top: 0; padding: 0 16px; color: #8d8984; font-size: 14px; font-weight: 400; text-transform: uppercase; cursor: pointer; }
+.welcome-divider { padding: 2px 0; color: #92908c; font-size: 17px; line-height: 1.3; text-align: center; }
+.welcome-guest { align-self: center; min-height: 44px; margin-top: 6px; padding: 0 16px; color: #5f5c57; font-size: 14px; font-weight: 600; cursor: pointer; }
 .welcome-guest:hover { color: #171513; }
 .welcome-guest:focus-visible { outline-color: #292825; }
 @media (max-width: 360px) {
@@ -110,86 +95,10 @@ body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
   .welcome-button img { left: 15px; width: 23px; height: 23px; }
 }
 @media (max-height: 620px) {
-  .welcome-page { padding-top: calc(14px + var(--safe-top)); padding-bottom: calc(10px + var(--safe-bottom)); }
-  .welcome-hero { margin-top: 8px; }
-  .welcome-collage { width: min(100%, 205px); }
-  .welcome-title { margin-top: 6px; font-size: 18px; }
-  .welcome-title strong { font-size: 25px; }
-  .welcome-actions { gap: 6px; }
-  .welcome-button { min-height: 44px; }
-  .welcome-guest { min-height: 30px; }
-}
-
-.mudo-home-page {
-  width: min(100%, 440px);
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-inline: auto;
-  padding: calc(18px + var(--safe-top)) 24px calc(18px + var(--safe-bottom));
-  overflow-y: auto;
-  color: #171513;
-  background: #fcfaf6;
-}
-.mudo-home-header { display: grid; grid-template-columns: 1fr 1.08fr; align-items: start; gap: 16px; flex-shrink: 0; }
-.mudo-home-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
-.mudo-home-nav-button { min-height: 35px; padding: 4px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.mudo-home-nav-button:disabled { opacity: 1; }
-.mudo-home-nav-button:not(:disabled) { cursor: pointer; }
-.mudo-home-profile { min-height: 70px; display: flex; align-items: center; gap: 12px; padding: 12px; background: #ada59c; }
-.mudo-home-avatar { width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; background: #4a4949; }
-.mudo-home-profile-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-family: 'Asangha Condensed', Georgia, serif; text-transform: uppercase; }
-.mudo-home-profile-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; letter-spacing: .08em; }
-.mudo-home-profile-copy > span { font-size: 12px; letter-spacing: .05em; }
-.mudo-home-main { display: flex; flex-direction: column; flex: 1; gap: 10px; min-height: 0; }
-.mudo-recent-card { display: flex; flex-direction: column; gap: 12px; padding: 14px; background: #ada59c; }
-.mudo-recent-heading { display: flex; align-items: center; gap: 9px; min-width: 0; }
-.mudo-recent-heading h2 { flex-shrink: 0; margin: 0; padding: 9px 10px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 15px; letter-spacing: .07em; text-transform: uppercase; }
-.mudo-recent-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; color: #4a4949; }
-.mudo-recent-details strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'Asangha Condensed', Georgia, serif; font-size: 17px; letter-spacing: .08em; text-transform: uppercase; }
-.mudo-recent-details > span { font-size: 10px; line-height: 1.25; text-transform: uppercase; }
-.mudo-recent-preview { width: min(100%, 260px); align-self: center; }
-.mudo-recent-preview .moodboard-preview { border-radius: 0; }
-.mudo-recent-preview .moodboard { --grid-gap: 6px; }
-.mudo-home-action { flex-shrink: 0; min-height: 49px; padding: 7px; background: #ada59c; }
-.mudo-home-action span { min-height: 35px; display: grid; place-items: center; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
-.mudo-home-action:disabled { opacity: 1; }
-.mudo-use-dashboard { margin-top: auto; padding: 12px; background: #ada59c; text-align: center; }
-.mudo-use-dashboard h2 { display: inline-block; margin: 0 0 8px; padding: 7px 10px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; }
-.mudo-use-dashboard .daily-login-grid { width: 100%; height: 76px; grid-template-columns: repeat(13, 9px); grid-template-rows: repeat(7, 9px); justify-content: center; align-content: center; gap: 2px; aspect-ratio: auto; background: #161616; }
-.mudo-use-dashboard .daily-login-cell { border-radius: 0; background: #4a4949; }
-.mudo-use-dashboard .daily-login-cell.has-activity { background: #ebe7e1; }
-.mudo-use-dashboard .daily-login-caption { margin: 0; padding: 2px 0 6px; background: #161616; color: #ebe7e1; font-size: 11px; }
-@media (max-width: 360px) {
-  .mudo-home-page { padding-inline: 18px; }
-  .mudo-home-header { gap: 12px; }
-  .mudo-home-nav-button { font-size: 12px; }
-  .mudo-home-profile { gap: 8px; padding: 8px; }
-  .mudo-home-avatar { width: 38px; height: 38px; }
-  .mudo-home-profile-copy strong { font-size: 13px; }
-  .mudo-home-profile-copy > span { font-size: 10px; }
-}
-@media (max-height: 760px) {
-  .mudo-home-page { gap: 12px; padding-top: calc(12px + var(--safe-top)); padding-bottom: calc(12px + var(--safe-bottom)); }
-  .mudo-home-main { gap: 8px; }
-  .mudo-recent-card { gap: 8px; padding: 10px; }
-  .mudo-recent-preview { width: min(100%, 180px); }
-  .mudo-home-action { min-height: 42px; padding: 5px; }
-  .mudo-home-action span { min-height: 32px; }
-  .mudo-use-dashboard { padding: 9px; }
-  .mudo-use-dashboard .daily-login-grid { height: 65px; grid-template-columns: repeat(13, 7px); grid-template-rows: repeat(7, 7px); }
-}
-@media (max-height: 600px) {
-  .mudo-home-navigation { gap: 5px 8px; }
-  .mudo-home-nav-button { min-height: 30px; }
-  .mudo-home-profile { min-height: 60px; }
-  .mudo-recent-preview { width: min(100%, 130px); }
-  .mudo-recent-heading h2 { padding: 6px 8px; font-size: 12px; }
-  .mudo-recent-details strong { font-size: 13px; }
-  .mudo-recent-details > span { font-size: 9px; }
-  .mudo-use-dashboard .daily-login-grid { height: 57px; grid-template-columns: repeat(13, 6px); grid-template-rows: repeat(7, 6px); }
+  .welcome-page { padding-top: calc(20px + var(--safe-top)); padding-bottom: calc(16px + var(--safe-bottom)); }
+  .welcome-actions { gap: 8px; }
+  .welcome-button { min-height: 54px; }
+  .welcome-spacer { min-height: 16px; }
 }
 
 .app-shell {

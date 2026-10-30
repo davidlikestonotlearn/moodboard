@@ -11,13 +11,11 @@ import { MoodboardNameForm } from './components/MoodboardNameForm';
 import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
 import { ProfilePanel } from './components/ProfilePanel';
 import { WelcomePage } from './components/WelcomePage';
-import { MudoHomePage } from './components/MudoHomePage';
 import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard, dailyLoginActivity } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 
 export function App() {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [showExplore, setShowExplore] = useState(false);
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
@@ -53,10 +51,9 @@ export function App() {
   }, [isMoodboard, selectedBoard]);
 
   useLayoutEffect(() => {
-    const onMudoSurface = showWelcome || !showExplore;
-    document.documentElement.dataset.theme = onMudoSurface ? 'light' : theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', onMudoSurface ? '#fcfaf6' : theme === 'dark' ? '#101114' : '#ffffff');
-  }, [theme, showWelcome, showExplore]);
+    document.documentElement.dataset.theme = showWelcome ? 'light' : theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', showWelcome ? '#f7f5ef' : theme === 'dark' ? '#101114' : '#ffffff');
+  }, [theme, showWelcome]);
 
   function openMoodboard(board) {
     setIsEditing(false);
@@ -109,7 +106,6 @@ export function App() {
     setProfilePanelMode(null);
     setShowAllMoodboards(false);
     setSelectedTab('home');
-    setShowExplore(false);
     setShowWelcome(true);
   }
 
@@ -146,7 +142,6 @@ export function App() {
   }
 
   if (showWelcome) return <WelcomePage onContinueAsGuest={() => setShowWelcome(false)} />;
-  if (!showExplore) return <MudoHomePage profile={userProfile} board={homeBoard} loginActivity={dailyLoginActivity} onExplore={() => setShowExplore(true)} />;
 
   return (
     <div className="app-shell">
@@ -161,7 +156,7 @@ export function App() {
         onRename={() => setNameFormMode('rename')}
         onDelete={() => setShowDeleteDialog(true)}
         onProfile={() => setProfilePanelMode('view')}
-        onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : () => setShowExplore(false)}
+        onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
         {showAllMoodboards && <AllMoodboardsPage boards={boards} onOpenMoodboard={openMoodboard} />}

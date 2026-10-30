@@ -25,7 +25,6 @@ export const boardItems = [
 export const recentMoodboard = {
   id: 'golden-hour',
   title: 'Golden hour',
-  updatedAt: '10/29/2026 10:52 PM',
   items: boardItems,
 };
 
