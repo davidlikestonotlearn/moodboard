@@ -52,6 +52,7 @@ body { overflow: hidden; overscroll-behavior: none; }
 button { font: inherit; color: inherit; border: 0; padding: 0; background: none; -webkit-tap-highlight-color: transparent; }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
 
 .mudo-offset { position: relative; isolation: isolate; }
 .mudo-offset::after { content: ''; position: absolute; inset: 4px -4px -4px 4px; z-index: -1; border-right: 2px solid #626161; border-bottom: 2px solid #626161; pointer-events: none; }
@@ -117,6 +118,40 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   .welcome-actions { gap: 6px; }
   .welcome-button { min-height: 44px; }
   .welcome-guest { min-height: 30px; }
+}
+
+.mudo-home-page {
+  width: min(100%, 440px);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-inline: auto;
+  padding: calc(18px + var(--safe-top)) 24px calc(18px + var(--safe-bottom));
+  overflow-y: auto;
+  color: #171513;
+  background: #fcfaf6;
+}
+.mudo-home-header { display: grid; grid-template-columns: 1fr 1.08fr; align-items: start; gap: 16px; flex-shrink: 0; }
+.mudo-home-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
+.mudo-home-nav-button { min-height: 35px; padding: 4px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.mudo-home-nav-button:disabled { opacity: 1; }
+.mudo-home-nav-button:not(:disabled) { cursor: pointer; }
+.mudo-home-profile { min-height: 70px; display: flex; align-items: center; gap: 12px; padding: 12px; background: #ada59c; }
+.mudo-home-avatar { width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; background: #4a4949; }
+.mudo-home-profile-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-family: 'Asangha Condensed', Georgia, serif; text-transform: uppercase; }
+.mudo-home-profile-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; letter-spacing: .08em; }
+.mudo-home-profile-copy > span { font-size: 12px; letter-spacing: .05em; }
+.mudo-home-main { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+@media (max-width: 360px) {
+  .mudo-home-page { padding-inline: 18px; }
+  .mudo-home-header { gap: 12px; }
+  .mudo-home-nav-button { font-size: 12px; }
+  .mudo-home-profile { gap: 8px; padding: 8px; }
+  .mudo-home-avatar { width: 38px; height: 38px; }
+  .mudo-home-profile-copy strong { font-size: 13px; }
+  .mudo-home-profile-copy > span { font-size: 10px; }
 }
 
 .app-shell {
