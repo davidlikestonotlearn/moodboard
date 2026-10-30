@@ -52,7 +52,7 @@ export function App() {
 
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = showWelcome ? 'light' : theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', showWelcome ? '#f7f5ef' : theme === 'dark' ? '#101114' : '#ffffff');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', showWelcome ? '#fcfaf6' : theme === 'dark' ? '#101114' : '#ffffff');
   }, [theme, showWelcome]);
 
   function openMoodboard(board) {

@@ -13,3 +13,7 @@ These images are sample content for the visual prototype, not connected service 
 - Midnights, Taylor Swift: [Apple Music](https://music.apple.com/us/album/midnights/1645937249).
 - eternal sunshine, Ariana Grande: [Apple Music](https://music.apple.com/us/album/eternal-sunshine/1725877944).
 - DM Sans: Google Fonts, SIL Open Font License.
+
+# Additional MUDO asset
+
+`mudo-welcome-collage.png` is cropped from the MUDO reference image provided by the user.
