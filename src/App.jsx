@@ -146,7 +146,7 @@ export function App() {
   }
 
   if (showWelcome) return <WelcomePage onContinueAsGuest={() => setShowWelcome(false)} />;
-  if (!showExplore) return <MudoHomePage profile={userProfile} board={homeBoard} onExplore={() => setShowExplore(true)} />;
+  if (!showExplore) return <MudoHomePage profile={userProfile} board={homeBoard} loginActivity={dailyLoginActivity} onExplore={() => setShowExplore(true)} />;
 
   return (
     <div className="app-shell">

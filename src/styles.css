@@ -156,6 +156,12 @@ body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
 .mudo-home-action { flex-shrink: 0; min-height: 49px; padding: 7px; background: #ada59c; }
 .mudo-home-action span { min-height: 35px; display: grid; place-items: center; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
 .mudo-home-action:disabled { opacity: 1; }
+.mudo-use-dashboard { margin-top: auto; padding: 12px; background: #ada59c; text-align: center; }
+.mudo-use-dashboard h2 { display: inline-block; margin: 0 0 8px; padding: 7px 10px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; }
+.mudo-use-dashboard .daily-login-grid { width: 100%; height: 76px; grid-template-columns: repeat(13, 9px); grid-template-rows: repeat(7, 9px); justify-content: center; align-content: center; gap: 2px; aspect-ratio: auto; background: #161616; }
+.mudo-use-dashboard .daily-login-cell { border-radius: 0; background: #4a4949; }
+.mudo-use-dashboard .daily-login-cell.has-activity { background: #ebe7e1; }
+.mudo-use-dashboard .daily-login-caption { margin: 0; padding: 2px 0 6px; background: #161616; color: #ebe7e1; font-size: 11px; }
 @media (max-width: 360px) {
   .mudo-home-page { padding-inline: 18px; }
   .mudo-home-header { gap: 12px; }
@@ -164,6 +170,26 @@ body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
   .mudo-home-avatar { width: 38px; height: 38px; }
   .mudo-home-profile-copy strong { font-size: 13px; }
   .mudo-home-profile-copy > span { font-size: 10px; }
+}
+@media (max-height: 760px) {
+  .mudo-home-page { gap: 12px; padding-top: calc(12px + var(--safe-top)); padding-bottom: calc(12px + var(--safe-bottom)); }
+  .mudo-home-main { gap: 8px; }
+  .mudo-recent-card { gap: 8px; padding: 10px; }
+  .mudo-recent-preview { width: min(100%, 180px); }
+  .mudo-home-action { min-height: 42px; padding: 5px; }
+  .mudo-home-action span { min-height: 32px; }
+  .mudo-use-dashboard { padding: 9px; }
+  .mudo-use-dashboard .daily-login-grid { height: 65px; grid-template-columns: repeat(13, 7px); grid-template-rows: repeat(7, 7px); }
+}
+@media (max-height: 600px) {
+  .mudo-home-navigation { gap: 5px 8px; }
+  .mudo-home-nav-button { min-height: 30px; }
+  .mudo-home-profile { min-height: 60px; }
+  .mudo-recent-preview { width: min(100%, 130px); }
+  .mudo-recent-heading h2 { padding: 6px 8px; font-size: 12px; }
+  .mudo-recent-details strong { font-size: 13px; }
+  .mudo-recent-details > span { font-size: 9px; }
+  .mudo-use-dashboard .daily-login-grid { height: 57px; grid-template-columns: repeat(13, 6px); grid-template-rows: repeat(7, 6px); }
 }
 
 .app-shell {

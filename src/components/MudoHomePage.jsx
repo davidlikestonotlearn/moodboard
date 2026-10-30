@@ -1,8 +1,9 @@
 import { MudoRecentCard } from './MudoRecentCard';
+import { DailyLoginGrid } from './DailyLoginGrid';
 
 const navigation = ['Home', 'MUDO', 'Explore', 'Settings'];
 
-export function MudoHomePage({ profile, board, onExplore, children }) {
+export function MudoHomePage({ profile, board, loginActivity, onExplore, children }) {
   return (
     <div className="mudo-home-page">
       <header className="mudo-home-header">
@@ -32,6 +33,7 @@ export function MudoHomePage({ profile, board, onExplore, children }) {
         {board && <MudoRecentCard board={board} />}
         <button className="mudo-home-action" type="button" disabled><span>Create MUDO</span></button>
         <button className="mudo-home-action" type="button" disabled><span>All MUDOs</span></button>
+        <DailyLoginGrid days={loginActivity} title="MUDO Use Dashboard" variant="mudo" />
         {children}
       </main>
     </div>
