@@ -1,6 +1,8 @@
+import { MudoRecentCard } from './MudoRecentCard';
+
 const navigation = ['Home', 'MUDO', 'Explore', 'Settings'];
 
-export function MudoHomePage({ profile, onExplore, children }) {
+export function MudoHomePage({ profile, board, onExplore, children }) {
   return (
     <div className="mudo-home-page">
       <header className="mudo-home-header">
@@ -26,7 +28,12 @@ export function MudoHomePage({ profile, onExplore, children }) {
           </span>
         </div>
       </header>
-      <main className="mudo-home-main">{children}</main>
+      <main className="mudo-home-main">
+        {board && <MudoRecentCard board={board} />}
+        <button className="mudo-home-action" type="button" disabled><span>Create MUDO</span></button>
+        <button className="mudo-home-action" type="button" disabled><span>All MUDOs</span></button>
+        {children}
+      </main>
     </div>
   );
 }

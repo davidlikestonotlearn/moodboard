@@ -143,7 +143,19 @@ body:has(.welcome-page), body:has(.mudo-home-page) { background: #fcfaf6; }
 .mudo-home-profile-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-family: 'Asangha Condensed', Georgia, serif; text-transform: uppercase; }
 .mudo-home-profile-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; letter-spacing: .08em; }
 .mudo-home-profile-copy > span { font-size: 12px; letter-spacing: .05em; }
-.mudo-home-main { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.mudo-home-main { display: flex; flex-direction: column; flex: 1; gap: 10px; min-height: 0; }
+.mudo-recent-card { display: flex; flex-direction: column; gap: 12px; padding: 14px; background: #ada59c; }
+.mudo-recent-heading { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.mudo-recent-heading h2 { flex-shrink: 0; margin: 0; padding: 9px 10px; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 15px; letter-spacing: .07em; text-transform: uppercase; }
+.mudo-recent-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; color: #4a4949; }
+.mudo-recent-details strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'Asangha Condensed', Georgia, serif; font-size: 17px; letter-spacing: .08em; text-transform: uppercase; }
+.mudo-recent-details > span { font-size: 10px; line-height: 1.25; text-transform: uppercase; }
+.mudo-recent-preview { width: min(100%, 260px); align-self: center; }
+.mudo-recent-preview .moodboard-preview { border-radius: 0; }
+.mudo-recent-preview .moodboard { --grid-gap: 6px; }
+.mudo-home-action { flex-shrink: 0; min-height: 49px; padding: 7px; background: #ada59c; }
+.mudo-home-action span { min-height: 35px; display: grid; place-items: center; background: #ebe7e1; color: #080808; font-family: 'Asangha Condensed', Georgia, serif; font-size: 16px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.mudo-home-action:disabled { opacity: 1; }
 @media (max-width: 360px) {
   .mudo-home-page { padding-inline: 18px; }
   .mudo-home-header { gap: 12px; }
