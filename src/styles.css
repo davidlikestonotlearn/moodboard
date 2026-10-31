@@ -67,6 +67,22 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   background-image: radial-gradient(#918c8110 0.6px, transparent 0.7px);
   background-size: 5px 5px;
 }
+.welcome-brand {
+  width: min(100%, 390px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.welcome-brand-mark {
+  display: grid;
+  grid-template-columns: repeat(2, 18px);
+  gap: 4px;
+}
+.welcome-brand-mark span { width: 18px; height: 18px; border-radius: 50%; background: #898784; }
+.welcome-brand-mark span:nth-child(2) { background: #636363; }
+.welcome-brand-mark span:nth-child(3) { background: #4b4946; }
+.welcome-brand-mark span:nth-child(4) { background: #ada79f; }
+.welcome-brand-name { font-size: 26px; font-weight: 500; line-height: 1; letter-spacing: -0.06em; }
 .welcome-spacer { flex: 1; min-height: 60px; }
 .welcome-actions { width: min(100%, 390px); display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
 .welcome-button {

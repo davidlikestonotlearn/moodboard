@@ -1,6 +1,12 @@
 export function WelcomePage({ onContinueAsGuest }) {
   return (
     <main className="welcome-page" aria-label="Welcome to MUDO">
+      <div className="welcome-brand" aria-label="MUDO">
+        <span className="welcome-brand-mark" aria-hidden="true">
+          <span /><span /><span /><span />
+        </span>
+        <span className="welcome-brand-name">MUDO</span>
+      </div>
       <div className="welcome-spacer" aria-hidden="true" />
 
       <div className="welcome-actions">
