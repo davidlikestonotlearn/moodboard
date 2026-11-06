@@ -1,4 +1,4 @@
-export function WelcomePage({ onContinueAsGuest, loading = false, error = '' }) {
+export function WelcomePage({ onContinueAsGuest, onEmail, loading = false, error = '' }) {
   return (
     <main className="welcome-page" aria-label="Welcome to MUDO">
       <div className="welcome-spacer" aria-hidden="true" />
@@ -15,7 +15,7 @@ export function WelcomePage({ onContinueAsGuest, loading = false, error = '' }) 
 
         <div className="welcome-divider">OR</div>
 
-        <button className="welcome-button" type="button" disabled>
+        <button className="welcome-button" type="button" onClick={onEmail}>
           Continue With Email
         </button>
         {onContinueAsGuest && (

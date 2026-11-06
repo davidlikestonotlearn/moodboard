@@ -22,8 +22,8 @@ export function ProfilePanel({ profile, boards, initialEditing = false, onSavePr
     const file = event.target.files?.[0];
     if (!file) return;
     event.target.value = '';
-    if (!file.type.startsWith('image/') || file.size > 10 * 1024 * 1024) {
-      setError('Choose an image smaller than 10 MB.');
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) {
+      setError('Choose a PNG, JPEG, or WebP image smaller than 10 MB.');
       return;
     }
     setError('');
@@ -76,7 +76,7 @@ export function ProfilePanel({ profile, boards, initialEditing = false, onSavePr
               <img className="profile-avatar" src={draft.image} alt="Profile preview" />
               <label className="profile-photo-button">
                 Change photo
-                <input className="visually-hidden" type="file" accept="image/*" onChange={uploadPhoto} />
+                <input className="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp" onChange={uploadPhoto} />
               </label>
             </div>
             <label className="link-field" htmlFor="profile-name">

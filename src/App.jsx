@@ -11,14 +11,18 @@ import { MoodboardNameForm } from './components/MoodboardNameForm';
 import { DeleteMoodboardDialog } from './components/DeleteMoodboardDialog';
 import { ProfilePanel } from './components/ProfilePanel';
 import { WelcomePage } from './components/WelcomePage';
+import { EmailAuthPage } from './components/EmailAuthPage';
 import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard, dailyLoginActivity } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
 import { loadGuestState, saveGuestState } from './guestApi';
+import { currentSession, emailSignIn, registerAccount, signOut, saveAccountState, saveAccountProfile } from './accountApi';
 
 export function App() {
   const [showWelcome, setShowWelcome] = useState(true);
+  const [authPage, setAuthPage] = useState(false);
+  const [sessionLoading, setSessionLoading] = useState(true);
+  const [activeMode, setActiveMode] = useState(null);
   const [guestLoading, setGuestLoading] = useState(false);
-  const [guestReady, setGuestReady] = useState(false);
   const [guestError, setGuestError] = useState('');
   const [saveError, setSaveError] = useState('');
   const [selectedTab, setSelectedTab] = useState('home');
@@ -63,11 +67,49 @@ export function App() {
   }, [theme, showWelcome]);
 
   useEffect(() => {
-    if (!guestReady || showWelcome) return;
+    currentSession().then(({ account }) => {
+      if (account) openAccount(account);
+    }).catch(() => {}).finally(() => setSessionLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (!activeMode || showWelcome) return;
     const state = JSON.parse(boardStateJson);
-    saveChainRef.current = saveChainRef.current.catch(() => {}).then(() => saveGuestState(state));
+    saveChainRef.current = saveChainRef.current.catch(() => {}).then(() => activeMode === 'guest' ? saveGuestState(state) : saveAccountState(state));
     saveChainRef.current.then(() => setSaveError(''), () => setSaveError('Could not save your moodboards. Check that the server is running.'));
-  }, [boardStateJson, guestReady, showWelcome]);
+  }, [boardStateJson, activeMode, showWelcome]);
+
+  function useSavedBoards(state) {
+    const savedBoards = state?.boards ?? [];
+    setCreatedBoards(savedBoards);
+    setDeletedBoardIds(moodboards.map((board) => board.id));
+    setBoardTitlesById({});
+    setBoardItemsById({});
+    setRecentBoardId(state?.recentBoardId ?? null);
+    setSelectedBoard(savedBoards.find((board) => board.id === state?.recentBoardId) ?? savedBoards[0] ?? null);
+    setSelectedTab('home');
+    setShowAllMoodboards(false);
+    setSaveError('');
+  }
+
+  function openAccount(account) {
+    useSavedBoards(account.state);
+    setUserProfile({ name: account.name, image: account.image || profile.image, bio: account.bio || '' });
+    setActiveMode('account');
+    setAuthPage(false);
+    setShowWelcome(false);
+  }
+
+  async function submitEmail(email, password) {
+    const result = await emailSignIn(email, password);
+    if (result.account) openAccount(result.account);
+    return result;
+  }
+
+  async function submitRegistration(details) {
+    const result = await registerAccount(details);
+    openAccount(result.account);
+  }
 
   async function enterGuest() {
     setGuestLoading(true);
@@ -76,14 +118,17 @@ export function App() {
       await saveChainRef.current.catch(() => {});
       const savedState = await loadGuestState();
       if (savedState) {
-        setCreatedBoards(savedState.boards);
-        setDeletedBoardIds(moodboards.map((board) => board.id));
+        useSavedBoards(savedState);
+      } else {
+        setCreatedBoards([]);
+        setDeletedBoardIds([]);
         setBoardTitlesById({});
         setBoardItemsById({});
-        setRecentBoardId(savedState.recentBoardId);
-        setSelectedBoard(savedState.boards.find((board) => board.id === savedState.recentBoardId) ?? savedState.boards[0] ?? null);
+        setRecentBoardId(recentMoodboard.id);
+        setSelectedBoard(recentMoodboard);
       }
-      setGuestReady(true);
+      setUserProfile(profile);
+      setActiveMode('guest');
       setShowWelcome(false);
     } catch {
       setGuestError('Could not open your guest moodboards. Check that the server is running.');
@@ -134,7 +179,14 @@ export function App() {
     setShowAllMoodboards(false);
   }
 
-  function logOut() {
+  async function logOut() {
+    try {
+      await saveChainRef.current;
+      if (activeMode === 'account') await signOut();
+    } catch {
+      setSaveError('Could not log out. Check that the server is running.');
+      return;
+    }
     setIsEditing(false);
     setEditingLinkId(null);
     setShowAddWidget(false);
@@ -143,7 +195,15 @@ export function App() {
     setProfilePanelMode(null);
     setShowAllMoodboards(false);
     setSelectedTab('home');
+    setActiveMode(null);
     setShowWelcome(true);
+  }
+
+  function saveProfile(nextProfile) {
+    setUserProfile(nextProfile);
+    if (activeMode === 'account') {
+      saveAccountProfile(nextProfile).catch(() => setSaveError('Could not save your profile. Try again.'));
+    }
   }
 
   function deleteWidget(id) {
@@ -178,7 +238,10 @@ export function App() {
     setShowAddWidget(false);
   }
 
-  if (showWelcome) return <WelcomePage onContinueAsGuest={enterGuest} loading={guestLoading} error={guestError} />;
+  if (sessionLoading) return <main className="welcome-page" aria-label="Loading"><p className="session-loading">Loading…</p></main>;
+  if (showWelcome) return authPage
+    ? <EmailAuthPage onBack={() => setAuthPage(false)} onSignIn={submitEmail} onRegister={submitRegistration} />
+    : <WelcomePage onContinueAsGuest={enterGuest} onEmail={() => setAuthPage(true)} loading={guestLoading} error={guestError} />;
 
   return (
     <div className="app-shell">
@@ -216,7 +279,7 @@ export function App() {
       {showAddWidget && <AddWidgetForm items={currentBoard.items} onClose={() => setShowAddWidget(false)} onAdd={addWidget} />}
       {nameFormMode && <MoodboardNameForm mode={nameFormMode} initialTitle={nameFormMode === 'rename' ? currentBoard?.title : ''} onClose={() => setNameFormMode(null)} onSave={nameFormMode === 'create' ? createMoodboard : renameMoodboard} />}
       {showDeleteDialog && currentBoard && <DeleteMoodboardDialog title={currentBoard.title} onClose={() => setShowDeleteDialog(false)} onDelete={deleteMoodboard} />}
-      {profilePanelMode && <ProfilePanel profile={userProfile} boards={boards} initialEditing={profilePanelMode === 'edit'} onSaveProfile={setUserProfile} onClose={() => setProfilePanelMode(null)} onOpenMoodboard={(board) => { setProfilePanelMode(null); openMoodboard(board); }} />}
+      {profilePanelMode && <ProfilePanel profile={userProfile} boards={boards} initialEditing={profilePanelMode === 'edit'} onSaveProfile={saveProfile} onClose={() => setProfilePanelMode(null)} onOpenMoodboard={(board) => { setProfilePanelMode(null); openMoodboard(board); }} />}
     </div>
   );
 }

@@ -92,6 +92,22 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .welcome-guest:focus-visible { outline-color: #292825; }
 .guest-entry-error { margin: 0; color: #a43443; font-size: 13px; text-align: center; }
 .guest-save-error { margin: 0 0 8px; color: var(--accent); font-size: 12px; text-align: center; }
+.session-loading { margin: auto; color: #77736e; }
+.email-auth-page { width: 100%; height: 100dvh; overflow-y: auto; padding: calc(24px + var(--safe-top)) 24px calc(24px + var(--safe-bottom)); background: #f7f5ef; color: #171513; }
+.email-auth-inner { width: min(100%, 390px); margin: 0 auto; }
+.email-auth-back { width: 44px; height: 44px; margin-bottom: 30px; font-size: 28px; text-align: left; cursor: pointer; }
+.email-auth-inner h1 { margin: 0 0 8px; font-size: clamp(28px, 8vw, 36px); line-height: 1.1; letter-spacing: -0.05em; }
+.email-auth-inner > p { margin: 0 0 34px; color: #615d58; font-size: 15px; line-height: 1.5; }
+.email-auth-form { display: flex; flex-direction: column; gap: 20px; }
+.email-auth-form label { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 700; }
+.email-auth-form input { width: 100%; min-height: 52px; padding: 12px 14px; border: 1px solid #d2ccc3; border-radius: 8px; background: #fff; color: #171513; font: inherit; font-weight: 400; }
+.email-auth-form input:focus { outline: 2px solid #55504b; outline-offset: 2px; }
+.email-auth-form input[type='file'] { padding: 13px; font-size: 13px; }
+.email-auth-form > button { min-height: 54px; margin-top: 10px; border-radius: 8px; background: #171513; color: #fff; font-weight: 700; cursor: pointer; }
+.email-auth-form > button:disabled { opacity: .55; cursor: default; }
+.email-auth-error { margin: -4px 0 0; color: #b03b4b; font-size: 13px; line-height: 1.4; }
+.email-auth-optional { color: #77736e; font-weight: 400; }
+.email-auth-preview { width: 78px; height: 78px; border-radius: 50%; object-fit: cover; }
 @media (max-width: 360px) {
   .welcome-button { padding-inline: 40px; font-size: 17px; }
   .welcome-button img { left: 15px; width: 23px; height: 23px; }
