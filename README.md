@@ -38,6 +38,7 @@ The one `dev` command starts both the React development server and the guest dat
 
 - `src/`: React components, styles, and sample content. `App.jsx` manages the selected tab; `main.jsx` starts React.
 - `server/`: Node guest API and SQLite storage.
+- `tests/`: Tests for board behavior, Spotify helpers, and guest database storage.
 - `data/`: Your local guest database, generated when the server starts and excluded from Git.
 - `public/`: Images and fonts used by the UI.
 - `index.html`: Vite's HTML entry point.

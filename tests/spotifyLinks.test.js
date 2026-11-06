@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { normalizeSpotifyUrl, safeSpotifyUrl } from './spotifyLinks.js';
+import { normalizeSpotifyUrl, safeSpotifyUrl } from '../src/spotifyLinks.js';
 
 const id = '2up3OPMp9Tb4dAKM2erWXQ';
 

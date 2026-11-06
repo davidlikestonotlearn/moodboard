@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createGuestStore } from './guestStore.js';
+import { createGuestStore } from '../server/guestStore.js';
 
 test('guest moodboards survive reopening the database and stay separate', () => {
   const directory = mkdtempSync(join(tmpdir(), 'mudo-guest-'));

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node server/index.js",
     "build": "vite build",
-    "test": "node --test src/boardSpace.test.js src/moveWidget.test.js src/spotifyLinks.test.js src/spotifyPreview.test.js server/guestStore.test.js",
+    "test": "node --test tests/*.test.js",
     "preview": "node server/index.js --production"
   },
   "engines": {

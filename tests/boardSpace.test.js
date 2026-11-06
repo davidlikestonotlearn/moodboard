@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { availablePlacements, playlistTrackLimit, WIDGET_SIZES } from './boardSpace.js';
+import { availablePlacements, playlistTrackLimit, WIDGET_SIZES } from '../src/boardSpace.js';
 
 test('playlist uses only wide or large sizes at the same track density', () => {
   assert.deepEqual(WIDGET_SIZES.map(playlistTrackLimit), [0, 3, 0, 6]);

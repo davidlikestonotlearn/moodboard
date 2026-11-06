@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { boardItems } from './data/sampleContent.js';
-import { moveWidget } from './moveWidget.js';
+import { boardItems } from '../src/data/sampleContent.js';
+import { moveWidget } from '../src/moveWidget.js';
 
 function assertValidGrid(items) {
   const occupied = new Set();

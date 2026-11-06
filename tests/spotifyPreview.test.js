@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { fetchSpotifyPreview } from './spotifyPreview.js';
+import { fetchSpotifyPreview } from '../src/spotifyPreview.js';
 
 test('uses Spotify title and image from oEmbed', async () => {
   const id = '4iV5W9uYEdYUVa79Axb7Rh';
