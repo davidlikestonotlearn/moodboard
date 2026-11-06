@@ -13,9 +13,14 @@ import { ProfilePanel } from './components/ProfilePanel';
 import { WelcomePage } from './components/WelcomePage';
 import { moodboards, emptyMoodboardTemplate, profile, navigationItems, recentMoodboard, dailyLoginActivity } from './data/sampleContent';
 import { moveWidget } from './moveWidget';
+import { loadGuestState, saveGuestState } from './guestApi';
 
 export function App() {
   const [showWelcome, setShowWelcome] = useState(true);
+  const [guestLoading, setGuestLoading] = useState(false);
+  const [guestReady, setGuestReady] = useState(false);
+  const [guestError, setGuestError] = useState('');
+  const [saveError, setSaveError] = useState('');
   const [selectedTab, setSelectedTab] = useState('home');
   const [showAllMoodboards, setShowAllMoodboards] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(recentMoodboard);
@@ -33,12 +38,14 @@ export function App() {
   const [userProfile, setUserProfile] = useState(profile);
   const [profilePanelMode, setProfilePanelMode] = useState(null);
   const mainContentRef = useRef(null);
+  const saveChainRef = useRef(Promise.resolve());
   const isMoodboard = !showAllMoodboards && selectedTab === 'moodboards';
   const boards = [...createdBoards, ...moodboards]
     .filter((board) => !deletedBoardIds.includes(board.id))
     .map((board) => ({ ...board, title: boardTitlesById[board.id] ?? board.title, items: boardItemsById[board.id] ?? board.items }));
   const currentBoard = boards.find((board) => board.id === selectedBoard?.id) ?? boards[0] ?? null;
   const homeBoard = boards.find((board) => board.id === recentBoardId) ?? boards[0];
+  const boardStateJson = JSON.stringify({ boards, recentBoardId });
   const editingLinkItem = isMoodboard ? currentBoard?.items.find((item) => item.id === editingLinkId) : null;
   const pageTitle = showAllMoodboards
     ? 'All Moodboards'
@@ -54,6 +61,36 @@ export function App() {
     document.documentElement.dataset.theme = showWelcome ? 'light' : theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', showWelcome ? '#f7f5ef' : theme === 'dark' ? '#101114' : '#ffffff');
   }, [theme, showWelcome]);
+
+  useEffect(() => {
+    if (!guestReady || showWelcome) return;
+    const state = JSON.parse(boardStateJson);
+    saveChainRef.current = saveChainRef.current.catch(() => {}).then(() => saveGuestState(state));
+    saveChainRef.current.then(() => setSaveError(''), () => setSaveError('Could not save your moodboards. Check that the server is running.'));
+  }, [boardStateJson, guestReady, showWelcome]);
+
+  async function enterGuest() {
+    setGuestLoading(true);
+    setGuestError('');
+    try {
+      await saveChainRef.current.catch(() => {});
+      const savedState = await loadGuestState();
+      if (savedState) {
+        setCreatedBoards(savedState.boards);
+        setDeletedBoardIds(moodboards.map((board) => board.id));
+        setBoardTitlesById({});
+        setBoardItemsById({});
+        setRecentBoardId(savedState.recentBoardId);
+        setSelectedBoard(savedState.boards.find((board) => board.id === savedState.recentBoardId) ?? savedState.boards[0] ?? null);
+      }
+      setGuestReady(true);
+      setShowWelcome(false);
+    } catch {
+      setGuestError('Could not open your guest moodboards. Check that the server is running.');
+    } finally {
+      setGuestLoading(false);
+    }
+  }
 
   function openMoodboard(board) {
     setIsEditing(false);
@@ -141,7 +178,7 @@ export function App() {
     setShowAddWidget(false);
   }
 
-  if (showWelcome) return <WelcomePage onContinueAsGuest={() => setShowWelcome(false)} />;
+  if (showWelcome) return <WelcomePage onContinueAsGuest={enterGuest} loading={guestLoading} error={guestError} />;
 
   return (
     <div className="app-shell">
@@ -159,6 +196,7 @@ export function App() {
         onBack={showAllMoodboards ? () => setShowAllMoodboards(false) : undefined}
       />
       <main ref={mainContentRef} tabIndex={-1} className="board-stage" aria-label={isMoodboard ? 'Your moodboard' : pageTitle}>
+        {saveError && <p className="guest-save-error" role="alert">{saveError}</p>}
         {showAllMoodboards && <AllMoodboardsPage boards={boards} onOpenMoodboard={openMoodboard} />}
         {!showAllMoodboards && selectedTab === 'home' && (
           <HomePage

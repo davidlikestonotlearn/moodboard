@@ -1,4 +1,4 @@
-export function WelcomePage({ onContinueAsGuest }) {
+export function WelcomePage({ onContinueAsGuest, loading = false, error = '' }) {
   return (
     <main className="welcome-page" aria-label="Welcome to MUDO">
       <div className="welcome-spacer" aria-hidden="true" />
@@ -19,10 +19,11 @@ export function WelcomePage({ onContinueAsGuest }) {
           Continue With Email
         </button>
         {onContinueAsGuest && (
-          <button className="welcome-guest" type="button" onClick={onContinueAsGuest}>
-            Continue as guest
+          <button className="welcome-guest" type="button" disabled={loading} onClick={onContinueAsGuest}>
+            {loading ? 'Opening guest moodboards…' : 'Continue as guest'}
           </button>
         )}
+        {error && <p className="guest-entry-error" role="alert">{error}</p>}
       </div>
     </main>
   );
